@@ -68,15 +68,8 @@
 		<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 			@forelse ($employees as $employee)
 				<div class="rounded-none border border-[#1F1F1F] bg-[#111111] p-5">
-					<div class="flex items-start gap-3">
-						<div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#DC2626]/20 text-sm font-semibold text-[#DC2626]">
-							{{ Str::of($employee->name)->substr(0, 1)->upper() }}
-						</div>
-						<div class="min-w-0">
-							<p class="truncate text-base font-semibold text-white">{{ $employee->name }}</p>
-							<p class="truncate text-sm text-[#A1A1AA]">{{ $employee->email }}</p>
-						</div>
-					</div>
+					<p class="truncate text-base font-semibold text-white">{{ $employee->name }}</p>
+					<p class="truncate text-sm text-[#A1A1AA]">{{ $employee->email }}</p>
 
 					<div class="mt-4 flex flex-wrap gap-2 text-xs">
 						<span class="rounded-none border border-[#1F1F1F] px-3 py-1 text-[#A1A1AA]">
