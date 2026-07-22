@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between gap-3">
-            <h2 class="text-2xl font-semibold leading-tight text-white">Leave History</h2>
-            <a href="{{ route('leave-requests.create') }}" class="inline-flex items-center rounded-lg bg-[#DC2626] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#B91C1C]">
-                New Leave Request
-            </a>
-        </div>
+        <h2 class="text-2xl font-semibold leading-tight text-white">Leave History</h2>
+        <a href="{{ route('leave-requests.create') }}" class="inline-flex items-center rounded-lg bg-[#DC2626] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#B91C1C]">
+            New Leave Request
+        </a>
     </x-slot>
 
     <div class="mx-auto max-w-7xl space-y-4">

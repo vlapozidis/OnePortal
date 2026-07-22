@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreLeaveRequestRequest extends FormRequest
 {
@@ -22,7 +21,6 @@ class StoreLeaveRequestRequest extends FormRequest
             'start_date' => ['required', 'date', 'after_or_equal:today'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'reason' => ['required', 'string', 'max:1000'],
-            'status' => ['sometimes', Rule::in(['Pending', 'Approved', 'Rejected'])],
         ];
     }
 }

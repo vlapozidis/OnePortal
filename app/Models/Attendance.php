@@ -11,9 +11,9 @@ class Attendance extends Model
     use HasFactory;
 
     public const WORK_STATUSES = [
-        'Working',
         'Remote',
         'On Site',
+        'Hybrid',
         'Leave',
     ];
 
@@ -21,12 +21,14 @@ class Attendance extends Model
         'user_id',
         'attendance_date',
         'status',
+        'checked_in_at',
     ];
 
     protected function casts(): array
     {
         return [
             'attendance_date' => 'date',
+            'checked_in_at' => 'datetime',
         ];
     }
 

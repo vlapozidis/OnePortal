@@ -38,10 +38,11 @@ class AttendanceController extends Controller
             'todayRecords' => $todayRecords,
             'employeesWithoutEntry' => $employeesWithoutEntry,
             'summary' => [
-                'Working' => $todayRecords->where('status', 'Working')->count(),
                 'Remote' => $todayRecords->where('status', 'Remote')->count(),
                 'On Site' => $todayRecords->where('status', 'On Site')->count(),
+                'Hybrid' => $todayRecords->where('status', 'Hybrid')->count(),
                 'Leave' => $todayRecords->where('status', 'Leave')->count(),
+                'Checked In' => $todayRecords->whereNotNull('checked_in_at')->count(),
             ],
         ]);
     }
@@ -61,5 +62,23 @@ class AttendanceController extends Controller
         return redirect()
             ->route('workforce.today')
             ->with('status', 'Today status updated successfully.');
+    }
+
+    public function checkIn(UpdateTodayAttendanceRequest $request): RedirectResponse
+    {
+        Attendance::updateOrCreate(
+            [
+                'user_id' => $request->user()->id,
+                'attendance_date' => now()->toDateString(),
+            ],
+            [
+                'status' => $request->validated('status'),
+                'checked_in_at' => now(),
+            ]
+        );
+
+        return redirect()
+            ->route('workforce.today')
+            ->with('status', 'Checked in successfully.');
     }
 }

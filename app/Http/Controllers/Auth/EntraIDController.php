@@ -17,8 +17,7 @@ class EntraIDController extends Controller
      */
     public function __construct(
         protected EntraIDUserService $entraIDUserService,
-    ) {
-    }
+    ) {}
 
     /**
      * Show the login page.
@@ -59,7 +58,7 @@ class EntraIDController extends Controller
         // Get or create user
         $user = $this->entraIDUserService->findOrCreateUser($entraUser);
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->withErrors([
                 'message' => 'Unable to create or update user account.',
             ]);
@@ -67,6 +66,8 @@ class EntraIDController extends Controller
 
         // Log the user in
         Auth::login($user, remember: true);
+
+        $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard'));
     }

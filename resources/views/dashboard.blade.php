@@ -9,7 +9,7 @@
         <div class="rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6 shadow-lg shadow-black/20">
             <h3 class="text-lg font-semibold text-white">Welcome back, {{ Auth::user()->name }}.</h3>
             <p class="mt-2 text-sm text-[#A1A1AA]">
-                Internal employee snapshot with initial MVP placeholder metrics.
+                Internal employee snapshot with live profile and activity metrics.
             </p>
 
             <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
