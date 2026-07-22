@@ -40,7 +40,7 @@
                         <p class="mt-2 text-sm text-[#A1A1AA]">
                             {{ __('Your email address is unverified.') }}
 
-                            <button form="send-verification" class="underline text-sm text-[#A1A1AA] hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC2626] focus:ring-offset-2 focus:ring-offset-[#111111]">
+                            <button form="send-verification" class="underline text-sm text-[#A1A1AA] hover:text-white rounded-none focus:outline-none focus:ring-2 focus:ring-[#DC2626] focus:ring-offset-2 focus:ring-offset-[#111111]">
                                 {{ __('Click here to re-send the verification email.') }}
                             </button>
                         </p>
@@ -56,7 +56,7 @@
 
             <div>
                 <x-input-label for="work_mode" :value="__('Work Mode')" />
-                <select id="work_mode" name="work_mode" class="mt-1 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-2 text-sm text-white focus:border-[#DC2626] focus:ring-[#DC2626]">
+                <select id="work_mode" name="work_mode" class="mt-1 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-2 text-sm text-white focus:border-[#DC2626] focus:ring-[#DC2626]">
                     <option value="">Select work mode</option>
                     @foreach (['Remote', 'On Site', 'Hybrid'] as $mode)
                         <option value="{{ $mode }}" @selected(old('work_mode', $user->work_mode) === $mode)>{{ $mode }}</option>

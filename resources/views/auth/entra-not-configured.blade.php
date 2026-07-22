@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="max-w-md mx-auto">
-        <div class="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-6">
+        <div class="bg-red-900 bg-opacity-20 border border-red-500 rounded-none p-6">
             <div class="flex items-start gap-4">
                 <div class="text-red-500 text-3xl">⚠️</div>
                 <div>
@@ -8,7 +8,7 @@
                     <p class="text-red-300 text-sm mb-4">
                         Microsoft Entra ID credentials are not configured yet.
                     </p>
-                    <div class="bg-black bg-opacity-40 rounded p-3 mb-4 text-xs text-gray-300 font-mono">
+                    <div class="bg-black bg-opacity-40 rounded-none p-3 mb-4 text-xs text-gray-300 font-mono">
                         <p>ENTRA_CLIENT_ID not set</p>
                         <p>ENTRA_CLIENT_SECRET not set</p>
                         <p>ENTRA_TENANT_ID not set</p>

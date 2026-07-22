@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="mx-auto max-w-3xl">
-        <div class="rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <form method="POST" action="{{ route('departments.store') }}" class="space-y-5">
                 @csrf
 
@@ -16,12 +16,12 @@
 
                 <div>
                     <x-input-label for="description" value="Description" />
-                    <textarea id="description" name="description" rows="4" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]">{{ old('description') }}</textarea>
+                    <textarea id="description" name="description" rows="4" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]">{{ old('description') }}</textarea>
                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
                 <div class="flex items-center justify-end gap-2">
-                    <a href="{{ route('departments.index') }}" class="rounded-lg border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
+                    <a href="{{ route('departments.index') }}" class="rounded-none border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
                         Cancel
                     </a>
                     <x-primary-button>Save Department</x-primary-button>

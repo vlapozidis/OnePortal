@@ -6,21 +6,21 @@
     </x-slot>
 
     <div class="mx-auto max-w-7xl space-y-6">
-        <div class="overflow-hidden rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <h3 class="text-lg font-semibold text-white">Leaves Per Month (Last 12 Months)</h3>
             <div class="mt-4" style="position: relative; height: 300px;">
                 <canvas id="leavesPerMonthChart"></canvas>
             </div>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <h3 class="text-lg font-semibold text-white">Department Leave Usage (Top 10)</h3>
             <div class="mt-4" style="position: relative; height: 350px;">
                 <canvas id="departmentLeaveChart"></canvas>
             </div>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <h3 class="text-lg font-semibold text-white">Employee Leave Statistics (Top 10)</h3>
             <div class="mt-4" style="position: relative; height: 400px;">
                 <canvas id="employeeLeaveChart"></canvas>

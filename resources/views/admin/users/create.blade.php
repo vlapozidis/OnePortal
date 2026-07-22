@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="mx-auto max-w-3xl">
-        <div class="rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-5">
                 @csrf
 
@@ -33,7 +33,7 @@
 
                 <div>
                     <x-input-label for="role" value="Role" />
-                    <select id="role" name="role" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]" required>
+                    <select id="role" name="role" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]" required>
                         <option value="employee" @selected(old('role') === 'employee')>Employee</option>
                         <option value="admin" @selected(old('role') === 'admin')>Admin</option>
                     </select>
@@ -42,7 +42,7 @@
 
                 <div>
                     <x-input-label for="department_id" value="Department" />
-                    <select id="department_id" name="department_id" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]">
+                    <select id="department_id" name="department_id" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]">
                         <option value="">No department</option>
                         @foreach ($departments as $department)
                             <option value="{{ $department->id }}" @selected((int) old('department_id') === $department->id)>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-2">
-                    <a href="{{ route('admin.users.index') }}" class="rounded-lg border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
+                    <a href="{{ route('admin.users.index') }}" class="rounded-none border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
                         Cancel
                     </a>
                     <x-primary-button>Create User</x-primary-button>

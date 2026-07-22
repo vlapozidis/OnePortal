@@ -6,14 +6,14 @@
     </x-slot>
 
     <div class="mx-auto max-w-4xl">
-        <div class="rounded-2xl border border-[#1F1F1F] bg-[#111111] p-6">
+        <div class="rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
             <form method="POST" action="{{ route('leave-requests.store') }}" class="space-y-5">
                 @csrf
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
                         <x-input-label for="department_id" value="Department" />
-                        <select id="department_id" name="department_id" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]" required>
+                        <select id="department_id" name="department_id" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]" required>
                             <option value="">Select department</option>
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}" @selected((int) old('department_id', $userDepartmentId) === $department->id)>
@@ -39,12 +39,12 @@
 
                 <div>
                     <x-input-label for="reason" value="Reason" />
-                    <textarea id="reason" name="reason" rows="5" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]" placeholder="Write the reason for your leave" required>{{ old('reason') }}</textarea>
+                    <textarea id="reason" name="reason" rows="5" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]" placeholder="Write the reason for your leave" required>{{ old('reason') }}</textarea>
                     <x-input-error :messages="$errors->get('reason')" class="mt-2" />
                 </div>
 
                 <div class="flex items-center justify-end gap-2">
-                    <a href="{{ route('leave-requests.index') }}" class="rounded-lg border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
+                    <a href="{{ route('leave-requests.index') }}" class="rounded-none border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
                         Cancel
                     </a>
                     <x-primary-button>Submit Request</x-primary-button>

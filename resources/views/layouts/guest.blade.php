@@ -60,7 +60,7 @@
                         </a>
                     </div>
 
-                    <div class="overflow-hidden rounded-2xl border border-[#1F1F1F] bg-[#111111] px-6 py-6 shadow-2xl shadow-black/30">
+                    <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] px-6 py-6 shadow-2xl shadow-black/30">
                     {{ $slot }}
                     </div>
                 </div>
