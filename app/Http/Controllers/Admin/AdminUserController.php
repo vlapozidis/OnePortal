@@ -16,6 +16,7 @@ class AdminUserController extends Controller
     public function index(): View
     {
         $users = User::query()
+            ->visible()
             ->with('department')
             ->orderBy('name', 'asc')
             ->paginate(15);

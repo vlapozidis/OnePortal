@@ -59,4 +59,12 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * Exclude the seeded demo admin account from employee-facing listings.
+     */
+    public function scopeVisible(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('email', '!=', 'admin@classter.local');
+    }
 }

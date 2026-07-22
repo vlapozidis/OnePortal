@@ -17,12 +17,14 @@ class AttendanceController extends Controller
 
         $todayRecords = Attendance::query()
             ->with(['user.department'])
+            ->whereHas('user', fn ($query) => $query->visible())
             ->whereDate('attendance_date', $today)
             ->orderBy('status', 'asc')
             ->orderBy('user_id', 'asc')
             ->get();
 
         $employeesWithoutEntry = User::query()
+            ->visible()
             ->whereNotIn('id', $todayRecords->pluck('user_id')->all(), 'and')
             ->with('department')
             ->orderBy('name', 'asc')

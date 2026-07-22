@@ -16,6 +16,7 @@ class EmployeeController extends Controller
         $workMode = (string) $request->string('work_mode');
 
         $employees = User::query()
+            ->visible()
             ->with('department')
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($subQuery) use ($search) {
