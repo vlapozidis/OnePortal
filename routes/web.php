@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminLeaveApprovalController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -39,6 +40,11 @@ Route::middleware(['auth', 'admin'])
             ->name('leave-requests.approve');
         Route::patch('/leave-requests/{leaveRequest}/reject', [AdminLeaveApprovalController::class, 'reject'])
             ->name('leave-requests.reject');
+
+        Route::resource('users', AdminUserController::class)
+            ->only(['index', 'create', 'store', 'destroy']);
+        Route::patch('/users/{user}/reset-password', [AdminUserController::class, 'resetPassword'])
+            ->name('users.reset-password');
     });
 
 Route::middleware(['auth', 'admin'])->group(function (): void {

@@ -69,9 +69,16 @@
             @if (Auth::user()->isAdmin())
                 <a
                     href="{{ route('admin.dashboard') }}"
-                    class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
+                    class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.dashboard') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
                 >
                     Admin Dashboard
+                </a>
+
+                <a
+                    href="{{ route('admin.users.index') }}"
+                    class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.users.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
+                >
+                    Manage Users
                 </a>
             @endif
 
