@@ -1,7 +1,11 @@
 import 'toastr/build/toastr.min.css';
 import toastr from 'toastr';
+import Alpine from 'alpinejs';
 
 window.toastr = toastr;
+
+window.Alpine = Alpine;
+Alpine.start();
 
 toastr.options = {
 	closeButton: true,
