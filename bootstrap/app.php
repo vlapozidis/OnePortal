@@ -21,6 +21,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'check-entra-config' => CheckEntraIDConfiguration::class,
         ]);
 
+        // Azure App Service terminates TLS at its edge and forwards requests
+        // over plain HTTP with X-Forwarded-* headers. Without trusting that
+        // proxy, $request->secure() always reports false and ForceHttps
+        // redirect-loops the app.
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(prepend: [
             ForceHttps::class,
         ]);

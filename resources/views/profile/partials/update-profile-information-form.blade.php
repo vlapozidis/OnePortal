@@ -7,29 +7,13 @@
         </h2>
 
         <p class="mt-1 text-sm text-[#A1A1AA]">
-            {{ __('Update your personal information, profile photo, and preferred work mode.') }}
+            {{ __('Update your personal information and preferred work mode.') }}
         </p>
     </header>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
-
-        <div class="flex items-center gap-4">
-            @if ($user->profile_photo_path)
-                <img src="{{ asset('storage/'.$user->profile_photo_path) }}" alt="Profile photo" class="h-16 w-16 rounded-full border border-[#1F1F1F] object-cover">
-            @else
-                <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#1F1F1F] bg-[#0A0A0A] text-xl font-semibold text-white">
-                    {{ \Illuminate\Support\Str::of($user->name)->substr(0, 1)->upper() }}
-                </div>
-            @endif
-
-            <div class="w-full">
-                <x-input-label for="profile_photo" :value="__('Profile Photo')" />
-                <input id="profile_photo" name="profile_photo" type="file" accept=".jpg,.jpeg,.png,.webp" class="mt-2 block w-full rounded-lg border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-2 text-sm text-white file:mr-3 file:rounded-md file:border-0 file:bg-[#DC2626] file:px-3 file:py-1 file:text-white hover:file:bg-[#B91C1C]">
-                <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
-            </div>
-        </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div>

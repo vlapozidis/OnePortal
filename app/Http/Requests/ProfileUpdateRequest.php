@@ -28,7 +28,6 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'phone_number' => ['nullable', 'string', 'max:30'],
             'work_mode' => ['nullable', Rule::in(['Remote', 'On Site', 'Hybrid'])],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

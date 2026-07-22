@@ -129,7 +129,6 @@ Every employee has access to a personal profile section.
 Users can:
 
 * Update profile information
-* Upload profile photo
 * Manage personal details
 * Maintain account information
 
