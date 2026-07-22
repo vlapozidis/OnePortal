@@ -4,10 +4,22 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="{{ asset('images/logofree.png') }}">
-        <link rel="shortcut icon" href="{{ asset('images/logofree.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
 
-        <title>{{ config('app.name', 'Classter') }}</title>
+        @php
+            $pageTitle = match (true) {
+                request()->routeIs('login') => 'Login',
+                request()->routeIs('register') => 'Register',
+                request()->routeIs('password.request') => 'Forgot Password',
+                request()->routeIs('password.reset') => 'Reset Password',
+                request()->routeIs('verification.notice') => 'Verify Email',
+                request()->routeIs('password.confirm') => 'Confirm Password',
+                default => null,
+            };
+        @endphp
+
+        <title>{{ config('app.name', 'Classter') }}{{ $pageTitle ? ' | '.$pageTitle : '' }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
