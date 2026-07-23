@@ -15,6 +15,7 @@
                 request()->routeIs('password.reset') => __('Reset Password'),
                 request()->routeIs('verification.notice') => __('Verify Email'),
                 request()->routeIs('password.confirm') => __('Confirm Password'),
+                request()->routeIs('password.force-change') => __('Set New Password'),
                 default => null,
             };
         @endphp

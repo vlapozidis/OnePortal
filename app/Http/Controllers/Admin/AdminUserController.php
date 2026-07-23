@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ResetUserPasswordRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Mail\AdminPasswordResetMail;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class AdminUserController extends Controller
@@ -46,15 +48,20 @@ class AdminUserController extends Controller
             ->with('status', __('User created successfully.'));
     }
 
-    public function resetPassword(ResetUserPasswordRequest $request, User $user): RedirectResponse
+    public function resetPassword(Request $request, User $user): RedirectResponse
     {
+        $temporaryPassword = Str::password(12, symbols: false);
+
         $user->update([
-            'password' => $request->validated('password'),
+            'password' => $temporaryPassword,
+            'must_change_password' => true,
         ]);
+
+        Mail::to($user)->send(new AdminPasswordResetMail($user, $temporaryPassword));
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', __('Password reset for :name.', ['name' => $user->name]));
+            ->with('status', __('A new temporary password was emailed to :name.', ['name' => $user->name]));
     }
 
     public function destroy(Request $request, User $user): RedirectResponse

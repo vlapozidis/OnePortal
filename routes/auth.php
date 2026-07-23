@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EntraIDController;
+use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -72,6 +73,12 @@ Route::middleware('guest')->group(function (): void {
 Route::middleware('auth')->group(function (): void {
     // Logout route
     Route::post('logout', [EntraIDController::class, 'logout'])->name('logout');
+
+    // Forced password change (after an admin-triggered reset)
+    Route::get('force-password-change', [ForcePasswordChangeController::class, 'edit'])
+        ->name('password.force-change');
+    Route::put('force-password-change', [ForcePasswordChangeController::class, 'update'])
+        ->name('password.force-change.update');
 
     // Email verification routes (commented out if using Entra ID for all verification)
     /*

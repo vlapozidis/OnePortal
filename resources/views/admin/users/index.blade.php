@@ -21,40 +21,25 @@
                     <form
                         method="POST"
                         action="{{ route('admin.users.reset-password', $user) }}"
-                        class="mt-4 space-y-2"
-                        onsubmit="return classterConfirmPasswordsMatch(this)"
+                        class="mt-4 flex items-center justify-between gap-2"
+                        onsubmit="return confirm('{{ __('Reset :name\'s password? A new temporary password will be emailed to them.', ['name' => $user->name]) }}')"
                     >
                         @csrf
                         @method('PATCH')
-                        <input type="hidden" name="reset_user_id" value="{{ $user->id }}">
-                        <div class="flex gap-2">
-                            <input type="password" name="password" placeholder="{{ __('New password') }}" required minlength="8" class="w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-2 py-1.5 text-xs text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]">
-                            <input type="password" name="password_confirmation" placeholder="{{ __('Confirm') }}" required minlength="8" class="w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-2 py-1.5 text-xs text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]">
-                        </div>
-                        <p class="classter-password-mismatch hidden text-xs text-red-400">
-                            <i class="bi bi-exclamation-circle mr-1"></i>{{ __('Passwords do not match.') }}
-                        </p>
-                        @if ((int) old('reset_user_id') === $user->id)
-                            @error('password')
-                                <p class="text-xs text-red-400"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
-                            @enderror
-                        @endif
-                        <div class="flex items-center justify-between gap-2">
-                            <button type="submit" class="rounded-none border border-[#1F1F1F] px-3 py-1.5 text-xs font-semibold text-white transition hover:border-[#B91C1C]">
-                                <i class="bi bi-arrow-repeat mr-1"></i>{{ __('Reset password') }}
-                            </button>
+                        <button type="submit" class="rounded-none border border-[#1F1F1F] px-3 py-1.5 text-xs font-semibold text-white transition hover:border-[#B91C1C]">
+                            <i class="bi bi-arrow-repeat mr-1"></i>{{ __('Reset password') }}
+                        </button>
 
-                            @if ($user->id !== auth()->id())
-                                <button
-                                    type="button"
-                                    x-data=""
-                                    x-on:click.prevent="$dispatch('open-modal', 'delete-user-{{ $user->id }}')"
-                                    class="rounded-none border border-red-700/60 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-900/30"
-                                >
-                                    <i class="bi bi-trash mr-1"></i>{{ __('Delete') }}
-                                </button>
-                            @endif
-                        </div>
+                        @if ($user->id !== auth()->id())
+                            <button
+                                type="button"
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'delete-user-{{ $user->id }}')"
+                                class="rounded-none border border-red-700/60 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-900/30"
+                            >
+                                <i class="bi bi-trash mr-1"></i>{{ __('Delete') }}
+                            </button>
+                        @endif
                     </form>
 
                     @if ($user->id !== auth()->id())
@@ -77,18 +62,4 @@
             {{ $users->links() }}
         </div>
     </div>
-
-    <script>
-        function classterConfirmPasswordsMatch(form) {
-            const mismatchNotice = form.querySelector('.classter-password-mismatch');
-
-            if (form.password.value !== form.password_confirmation.value) {
-                mismatchNotice.classList.remove('hidden');
-                return false;
-            }
-
-            mismatchNotice.classList.add('hidden');
-            return true;
-        }
-    </script>
 </x-app-layout>
