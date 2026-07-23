@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/workforce/today', [AttendanceController::class, 'today'])->name('workforce.today');
     Route::put('/workforce/today/check-in', [AttendanceController::class, 'checkIn'])->name('workforce.checkin');
+    Route::put('/workforce/today/check-out', [AttendanceController::class, 'checkOut'])->name('workforce.checkout');
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
     Route::resource('leave-requests', LeaveRequestController::class)->only(['index', 'create', 'store']);

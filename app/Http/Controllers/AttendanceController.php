@@ -69,4 +69,27 @@ class AttendanceController extends Controller
             ->back()
             ->with('status', __('Checked in successfully.'));
     }
+
+    public function checkOut(Request $request): RedirectResponse
+    {
+        abort_unless(
+            now()->hour >= Attendance::CHECK_OUT_AVAILABLE_FROM_HOUR,
+            403,
+            __('Check-out is only available from :hour:00 onward.', ['hour' => Attendance::CHECK_OUT_AVAILABLE_FROM_HOUR])
+        );
+
+        $attendance = Attendance::query()
+            ->where('user_id', $request->user()->id)
+            ->whereDate('attendance_date', now()->toDateString())
+            ->whereNotNull('checked_in_at')
+            ->first();
+
+        abort_unless($attendance, 404, __("You haven't checked in today."));
+
+        $attendance->update(['checked_out_at' => now()]);
+
+        return redirect()
+            ->back()
+            ->with('status', __('Checked out successfully.'));
+    }
 }

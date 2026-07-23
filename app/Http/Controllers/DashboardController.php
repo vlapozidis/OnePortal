@@ -35,6 +35,10 @@ class DashboardController extends Controller
             && $latestAttendance->attendance_date->isSameDay($today)
             && $latestAttendance->checked_in_at !== null;
 
+        $checkedOutToday = $checkedInToday && $latestAttendance->checked_out_at !== null;
+
+        $canCheckOut = now()->hour >= Attendance::CHECK_OUT_AVAILABLE_FROM_HOUR;
+
         $checkedInDays = Attendance::query()
             ->where('user_id', $user->id)
             ->whereNotNull('checked_in_at')
@@ -79,6 +83,9 @@ class DashboardController extends Controller
         return view('dashboard', [
             'dashboardCards' => $dashboardCards,
             'checkedInToday' => $checkedInToday,
+            'checkedOutToday' => $checkedOutToday,
+            'checkedOutAt' => $checkedOutToday ? $latestAttendance->checked_out_at : null,
+            'canCheckOut' => $canCheckOut,
             'calendarMonthLabel' => $today->translatedFormat('F Y'),
             'calendarDaysInMonth' => $today->daysInMonth,
             'calendarLeadingBlanks' => $today->copy()->startOfMonth()->dayOfWeekIso - 1,

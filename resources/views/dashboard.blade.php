@@ -27,9 +27,7 @@
             <div class="flex w-full flex-col items-start gap-3 self-start rounded-none border border-[#1F1F1F] bg-[#111111] p-6 lg:w-64">
                 <h3 class="text-sm font-semibold text-white">{{ __('Check In') }}</h3>
 
-                @if ($checkedInToday)
-                    <p class="text-sm text-green-300"><i class="bi bi-check-circle-fill mr-1"></i>{{ __('You have checked in today.') }}</p>
-                @else
+                @if (! $checkedInToday)
                     <form method="POST" action="{{ route('workforce.checkin') }}">
                         @csrf
                         @method('PUT')
@@ -37,6 +35,31 @@
                             <i class="bi bi-check2-square mr-2"></i>{{ __('Check In') }}
                         </button>
                     </form>
+                @else
+                    <p class="text-sm text-green-300"><i class="bi bi-check-circle-fill mr-1"></i>{{ __('You have checked in today.') }}</p>
+
+                    @if ($checkedOutToday)
+                        <p class="text-sm text-green-300">
+                            <i class="bi bi-check-circle-fill mr-1"></i>
+                            {{ __('Checked out at :time.', ['time' => $checkedOutAt->format('H:i')]) }}
+                        </p>
+                    @else
+                        <form method="POST" action="{{ route('workforce.checkout') }}">
+                            @csrf
+                            @method('PUT')
+                            <button
+                                type="submit"
+                                @disabled(! $canCheckOut)
+                                class="rounded-none bg-[#DC2626] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#B91C1C] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#DC2626]"
+                            >
+                                <i class="bi bi-box-arrow-right mr-2"></i>{{ __('Check Out') }}
+                            </button>
+                        </form>
+
+                        @unless ($canCheckOut)
+                            <p class="text-xs text-[#71717A]">{{ __('Available from :hour:00.', ['hour' => \App\Models\Attendance::CHECK_OUT_AVAILABLE_FROM_HOUR]) }}</p>
+                        @endunless
+                    @endif
                 @endif
             </div>
 

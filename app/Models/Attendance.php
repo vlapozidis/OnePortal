@@ -17,11 +17,17 @@ class Attendance extends Model
         'Leave',
     ];
 
+    /**
+     * Checking out is only allowed from this hour onward (24h, app timezone).
+     */
+    public const CHECK_OUT_AVAILABLE_FROM_HOUR = 17;
+
     protected $fillable = [
         'user_id',
         'attendance_date',
         'status',
         'checked_in_at',
+        'checked_out_at',
     ];
 
     protected function casts(): array
@@ -29,6 +35,7 @@ class Attendance extends Model
         return [
             'attendance_date' => 'date',
             'checked_in_at' => 'datetime',
+            'checked_out_at' => 'datetime',
         ];
     }
 
