@@ -7,6 +7,19 @@
     </x-slot>
 
     <div class="mx-auto max-w-7xl space-y-4">
+        @if (session('temporaryPassword'))
+            <div class="rounded-none border border-[#DC2626] bg-[#1A0E0E] p-5">
+                <p class="text-sm font-semibold text-white">{{ __('Temporary password for :name:', ['name' => session('temporaryPasswordFor')]) }}</p>
+                <p class="mt-2 select-all rounded-none border border-[#3F3F46] bg-[#0A0A0A] px-4 py-2 font-mono text-lg tracking-wider text-white">
+                    {{ session('temporaryPassword') }}
+                </p>
+                <p class="mt-2 text-xs text-[#A1A1AA]">
+                    <i class="bi bi-exclamation-triangle mr-1"></i>
+                    {{ __('This is shown only once. Share it securely with the user — they will be required to set a new password on next login.') }}
+                </p>
+            </div>
+        @endif
+
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($users as $user)
                 <div class="rounded-none border border-[#1F1F1F] bg-[#111111] p-5">
@@ -22,7 +35,7 @@
                         method="POST"
                         action="{{ route('admin.users.reset-password', $user) }}"
                         class="mt-4 flex items-center justify-between gap-2"
-                        onsubmit="return confirm('{{ __('Reset :name\'s password? A new temporary password will be emailed to them.', ['name' => $user->name]) }}')"
+                        onsubmit="return confirm('{{ __('Reset :name\'s password? A new temporary password will be generated for you to share with them.', ['name' => $user->name]) }}')"
                     >
                         @csrf
                         @method('PATCH')
