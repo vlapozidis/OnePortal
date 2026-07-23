@@ -32,7 +32,7 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('departments.index')
-            ->with('status', 'Department created successfully.');
+            ->with('status', __('Department created successfully.'));
     }
 
     public function edit(Department $department): View
@@ -48,7 +48,7 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('departments.index')
-            ->with('status', 'Department updated successfully.');
+            ->with('status', __('Department updated successfully.'));
     }
 
     public function destroy(Department $department): RedirectResponse
@@ -57,6 +57,6 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('departments.index')
-            ->with('status', 'Department deleted successfully.');
+            ->with('status', __('Department deleted successfully.'));
     }
 }

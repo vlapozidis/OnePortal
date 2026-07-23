@@ -16,11 +16,18 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::put('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, App\Http\Middleware\SetLocale::SUPPORTED_LOCALES, true), 404);
+
+    session(['locale' => $locale]);
+
+    return back();
+})->name('locale.switch');
+
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/workforce/today', [AttendanceController::class, 'today'])->name('workforce.today');
-    Route::put('/workforce/today/status', [AttendanceController::class, 'updateMyStatus'])->name('workforce.status.update');
     Route::put('/workforce/today/check-in', [AttendanceController::class, 'checkIn'])->name('workforce.checkin');
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');

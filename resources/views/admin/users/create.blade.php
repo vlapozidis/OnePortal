@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-semibold leading-tight text-white">Add User</h2>
+        <h2 class="text-2xl font-semibold leading-tight text-white">{{ __('Add User') }}</h2>
     </x-slot>
 
     <div class="mx-auto max-w-3xl">
@@ -9,41 +9,41 @@
                 @csrf
 
                 <div>
-                    <x-input-label for="name" value="Name" />
+                    <x-input-label for="name" :value="__('Name')" />
                     <x-text-input id="name" name="name" type="text" class="mt-2 block w-full" :value="old('name')" required autofocus />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
                 <div>
-                    <x-input-label for="email" value="Email" />
+                    <x-input-label for="email" :value="__('Email')" />
                     <x-text-input id="email" name="email" type="email" class="mt-2 block w-full" :value="old('email')" required />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
                 <div>
-                    <x-input-label for="password" value="Password" />
+                    <x-input-label for="password" :value="__('Password')" />
                     <x-text-input id="password" name="password" type="password" class="mt-2 block w-full" required />
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
                 <div>
-                    <x-input-label for="password_confirmation" value="Confirm Password" />
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
                     <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-2 block w-full" required />
                 </div>
 
                 <div>
-                    <x-input-label for="role" value="Role" />
+                    <x-input-label for="role" :value="__('Role')" />
                     <select id="role" name="role" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]" required>
-                        <option value="employee" @selected(old('role') === 'employee')>Employee</option>
-                        <option value="admin" @selected(old('role') === 'admin')>Admin</option>
+                        <option value="employee" @selected(old('role') === 'employee')>{{ __('Employee') }}</option>
+                        <option value="admin" @selected(old('role') === 'admin')>{{ __('Admin') }}</option>
                     </select>
                     <x-input-error :messages="$errors->get('role')" class="mt-2" />
                 </div>
 
                 <div>
-                    <x-input-label for="department_id" value="Department" />
+                    <x-input-label for="department_id" :value="__('Department')" />
                     <select id="department_id" name="department_id" class="mt-2 block w-full rounded-none border border-[#1F1F1F] bg-[#0A0A0A] text-white focus:border-[#DC2626] focus:ring-[#DC2626]">
-                        <option value="">No department</option>
+                        <option value="">{{ __('No department') }}</option>
                         @foreach ($departments as $department)
                             <option value="{{ $department->id }}" @selected((int) old('department_id') === $department->id)>
                                 {{ $department->name }}
@@ -55,9 +55,9 @@
 
                 <div class="flex items-center justify-end gap-2">
                     <a href="{{ route('admin.users.index') }}" class="rounded-none border border-[#1F1F1F] px-4 py-2 text-sm text-[#A1A1AA] transition hover:text-white">
-                        Cancel
+                        <i class="bi bi-x-lg mr-1"></i>{{ __('Cancel') }}
                     </a>
-                    <x-primary-button>Create User</x-primary-button>
+                    <x-primary-button><i class="bi bi-check-lg mr-2"></i>{{ __('Create User') }}</x-primary-button>
                 </div>
             </form>
         </div>

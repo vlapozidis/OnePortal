@@ -51,7 +51,7 @@ class EntraIDController extends Controller
             $entraUser = Socialite::driver('microsoft')->user();
         } catch (InvalidStateException $e) {
             return redirect()->route('login')->withErrors([
-                'message' => 'Invalid login state. Please try again.',
+                'message' => __('Invalid login state. Please try again.'),
             ]);
         }
 
@@ -60,7 +60,7 @@ class EntraIDController extends Controller
 
         if (! $user) {
             return redirect()->route('login')->withErrors([
-                'message' => 'Unable to create or update user account.',
+                'message' => __('Unable to create or update user account.'),
             ]);
         }
 
@@ -82,6 +82,6 @@ class EntraIDController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Logged out successfully.');
+        return redirect()->route('login')->with('success', __('Logged out successfully.'));
     }
 }

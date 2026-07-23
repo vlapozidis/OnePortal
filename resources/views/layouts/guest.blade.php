@@ -9,12 +9,12 @@
 
         @php
             $pageTitle = match (true) {
-                request()->routeIs('login') => 'Login',
-                request()->routeIs('register') => 'Register',
-                request()->routeIs('password.request') => 'Forgot Password',
-                request()->routeIs('password.reset') => 'Reset Password',
-                request()->routeIs('verification.notice') => 'Verify Email',
-                request()->routeIs('password.confirm') => 'Confirm Password',
+                request()->routeIs('login') => __('Login'),
+                request()->routeIs('register') => __('Register'),
+                request()->routeIs('password.request') => __('Forgot Password'),
+                request()->routeIs('password.reset') => __('Reset Password'),
+                request()->routeIs('verification.notice') => __('Verify Email'),
+                request()->routeIs('password.confirm') => __('Confirm Password'),
                 default => null,
             };
         @endphp
@@ -28,15 +28,11 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body
-        class="font-sans antialiased bg-[#0A0A0A] text-white"
-        data-toast-status="{{ session('status') }}"
-        data-toast-success="{{ session('success') }}"
-        data-toast-error="{{ session('error') }}"
-        data-toast-errors='@json($errors->all())'
-    >
+    <body class="font-sans antialiased bg-[#0A0A0A] text-white">
         <div class="relative min-h-screen overflow-hidden">
             <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(220,38,38,0.15),transparent_40%),radial-gradient(circle_at_85%_20%,rgba(185,28,28,0.1),transparent_45%)]"></div>
+
+            <x-language-switcher class="absolute right-4 top-4 z-10" />
 
             <div class="relative flex min-h-screen flex-col items-center justify-center px-4 py-8 lg:flex-row lg:gap-32">
                 <!-- Left Side: Logo with Glow (Desktop Only) -->

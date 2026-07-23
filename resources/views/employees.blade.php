@@ -1,6 +1,6 @@
 <x-app-layout>
 	<x-slot name="header">
-		<h2 class="text-2xl font-semibold leading-tight text-white">Employees Directory</h2>
+		<h2 class="text-2xl font-semibold leading-tight text-white">{{ __('Employees Directory') }}</h2>
 	</x-slot>
 
 	<div class="mx-auto max-w-7xl space-y-4">
@@ -10,14 +10,17 @@
 			id="employee-filters"
 			class="flex flex-wrap items-center gap-3 rounded-none border border-[#1F1F1F] bg-[#111111] p-4"
 		>
-			<input
-				id="search"
-				name="search"
-				type="text"
-				value="{{ $filters['search'] }}"
-				placeholder="Search by name or email"
-				class="w-56 rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-1.5 text-sm text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]"
-			>
+			<div class="relative">
+				<i class="bi bi-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#71717A]"></i>
+				<input
+					id="search"
+					name="search"
+					type="text"
+					value="{{ $filters['search'] }}"
+					placeholder="{{ __('Search by name or email') }}"
+					class="w-56 rounded-none border border-[#1F1F1F] bg-[#0A0A0A] py-1.5 pl-9 pr-3 text-sm text-white placeholder:text-[#71717A] focus:border-[#DC2626] focus:ring-[#DC2626]"
+				>
+			</div>
 
 			<select
 				id="department_id"
@@ -25,7 +28,7 @@
 				onchange="document.getElementById('employee-filters').submit()"
 				class="w-40 rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-1.5 text-sm text-white focus:border-[#DC2626] focus:ring-[#DC2626]"
 			>
-				<option value="">All Departments</option>
+				<option value="">{{ __('All Departments') }}</option>
 				@foreach ($departments as $department)
 					<option value="{{ $department->id }}" @selected((int) $filters['department_id'] === $department->id)>
 						{{ $department->name }}
@@ -39,17 +42,17 @@
 				onchange="document.getElementById('employee-filters').submit()"
 				class="w-40 rounded-none border border-[#1F1F1F] bg-[#0A0A0A] px-3 py-1.5 text-sm text-white focus:border-[#DC2626] focus:ring-[#DC2626]"
 			>
-				<option value="">All Work Modes</option>
+				<option value="">{{ __('All Work Modes') }}</option>
 				@foreach ($workModes as $mode)
 					<option value="{{ $mode }}" @selected($filters['work_mode'] === $mode)>
-						{{ $mode }}
+						{{ __($mode) }}
 					</option>
 				@endforeach
 			</select>
 
 			@if ($filters['search'] !== '' || $filters['department_id'] > 0 || $filters['work_mode'] !== '')
 				<a href="{{ route('employees.index') }}" class="text-sm text-[#A1A1AA] transition hover:text-white">
-					Clear filters
+					<i class="bi bi-x-circle mr-1"></i>{{ __('Clear filters') }}
 				</a>
 			@endif
 		</form>
@@ -73,16 +76,16 @@
 
 					<div class="mt-4 flex flex-wrap gap-2 text-xs">
 						<span class="rounded-none border border-[#1F1F1F] px-3 py-1 text-[#A1A1AA]">
-							{{ $employee->department?->name ?? 'No department' }}
+							{{ $employee->department?->name ?? __('No department') }}
 						</span>
 						<span class="rounded-none border border-[#1F1F1F] px-3 py-1 text-[#A1A1AA]">
-							{{ $employee->work_mode ?? 'No work mode' }}
+							{{ $employee->work_mode ? __($employee->work_mode) : __('No work mode') }}
 						</span>
 					</div>
 				</div>
 			@empty
 				<div class="col-span-full rounded-none border border-[#1F1F1F] bg-[#111111] p-8 text-center text-[#A1A1AA]">
-					No employees found for the selected filters.
+					{{ __('No employees found for the selected filters.') }}
 				</div>
 			@endforelse
 		</div>

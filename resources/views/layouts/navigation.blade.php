@@ -23,47 +23,49 @@
             <p class="text-xs text-[#A1A1AA]">{{ Auth::user()->email }}</p>
         </div>
 
+        <x-language-switcher class="mb-6" />
+
         <div class="space-y-1">
             <a
                 href="{{ route('dashboard') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('dashboard') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Dashboard
+                <i class="bi bi-speedometer2 mr-2"></i>{{ __('Dashboard') }}
             </a>
 
             <a
                 href="{{ route('employees.index') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('employees.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Employees
+                <i class="bi bi-people mr-2"></i>{{ __('Employees') }}
             </a>
 
             <a
                 href="{{ route('departments.index') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('departments.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Departments
+                <i class="bi bi-diagram-3 mr-2"></i>{{ __('Departments') }}
             </a>
 
             <a
                 href="{{ route('leave-requests.index') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('leave-requests.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Leave Requests
+                <i class="bi bi-calendar2-check mr-2"></i>{{ __('Leave Requests') }}
             </a>
 
             <a
                 href="{{ route('workforce.today') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('workforce.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Today's Workforce
+                <i class="bi bi-clock-history mr-2"></i>{{ __("Today's Workforce") }}
             </a>
 
             <a
                 href="{{ route('statistics.index') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('statistics.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Statistics
+                <i class="bi bi-bar-chart mr-2"></i>{{ __('Statistics') }}
             </a>
 
             @if (Auth::user()->isAdmin())
@@ -71,14 +73,14 @@
                     href="{{ route('admin.dashboard') }}"
                     class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.dashboard') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
                 >
-                    Admin Dashboard
+                    <i class="bi bi-shield-lock mr-2"></i>{{ __('Admin Dashboard') }}
                 </a>
 
                 <a
                     href="{{ route('admin.users.index') }}"
                     class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.users.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
                 >
-                    Manage Users
+                    <i class="bi bi-person-gear mr-2"></i>{{ __('Manage Users') }}
                 </a>
             @endif
 
@@ -86,14 +88,14 @@
                 href="{{ route('profile.edit') }}"
                 class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('profile.*') ? 'bg-[#DC2626]/20 text-white' : 'text-[#A1A1AA] hover:bg-[#1F1F1F] hover:text-white' }}"
             >
-                Profile Settings
+                <i class="bi bi-gear mr-2"></i>{{ __('Settings') }}
             </a>
         </div>
 
         <form method="POST" action="{{ route('logout') }}" class="mt-6 border-t border-[#1F1F1F] pt-4">
             @csrf
             <button type="submit" class="w-full rounded-none border border-[#1F1F1F] px-3 py-2 text-left text-sm font-medium text-[#A1A1AA] transition hover:border-[#B91C1C] hover:text-white">
-                Log Out
+                <i class="bi bi-box-arrow-right mr-2"></i>{{ __('Log Out') }}
             </button>
         </form>
     </div>

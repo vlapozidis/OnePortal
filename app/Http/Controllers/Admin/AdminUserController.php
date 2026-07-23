@@ -43,7 +43,7 @@ class AdminUserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', 'User created successfully.');
+            ->with('status', __('User created successfully.'));
     }
 
     public function resetPassword(ResetUserPasswordRequest $request, User $user): RedirectResponse
@@ -54,7 +54,7 @@ class AdminUserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', "Password reset for {$user->name}.");
+            ->with('status', __('Password reset for :name.', ['name' => $user->name]));
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
@@ -62,13 +62,13 @@ class AdminUserController extends Controller
         if ($user->id === $request->user()->id) {
             return redirect()
                 ->route('admin.users.index')
-                ->with('status', 'You cannot delete your own account.');
+                ->with('status', __('You cannot delete your own account.'));
         }
 
         $user->delete();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', 'User deleted successfully.');
+            ->with('status', __('User deleted successfully.'));
     }
 }

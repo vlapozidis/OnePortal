@@ -21,7 +21,7 @@ class AdminLeaveApprovalController extends Controller
             'admin_comment' => $request->input('admin_comment'),
         ]);
 
-        return back()->with('status', 'Leave request approved.');
+        return back()->with('status', __('Leave request approved.'));
     }
 
     public function reject(AdminReviewLeaveRequestRequest $request, LeaveRequest $leaveRequest): RedirectResponse
@@ -35,6 +35,6 @@ class AdminLeaveApprovalController extends Controller
             'admin_comment' => $request->input('admin_comment'),
         ]);
 
-        return back()->with('status', 'Leave request rejected.');
+        return back()->with('status', __('Leave request rejected.'));
     }
 }

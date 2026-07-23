@@ -5,20 +5,20 @@
             $routeName = request()->route()?->getName();
 
             $pageTitle = match (true) {
-                request()->routeIs('dashboard') => 'Dashboard',
-                request()->routeIs('employees.*') => 'Employees',
-                request()->routeIs('departments.index') => 'Departments',
-                request()->routeIs('departments.create') => 'Create Department',
-                request()->routeIs('departments.edit') => 'Edit Department',
-                request()->routeIs('departments.*') => 'Departments',
-                request()->routeIs('leave-requests.index') => 'Leave History',
-                request()->routeIs('leave-requests.create') => 'Submit Leave Request',
-                request()->routeIs('leave-requests.*') => 'Leave Requests',
-                request()->routeIs('workforce.*') => "Today's Workforce",
-                request()->routeIs('statistics.*') => 'Leave Statistics',
-                request()->routeIs('admin.dashboard') => 'Admin Dashboard',
-                request()->routeIs('admin.*') => 'Admin',
-                request()->routeIs('profile.*') => 'Profile Settings',
+                request()->routeIs('dashboard') => __('Dashboard'),
+                request()->routeIs('employees.*') => __('Employees'),
+                request()->routeIs('departments.index') => __('Departments'),
+                request()->routeIs('departments.create') => __('Create Department'),
+                request()->routeIs('departments.edit') => __('Edit Department'),
+                request()->routeIs('departments.*') => __('Departments'),
+                request()->routeIs('leave-requests.index') => __('Leave History'),
+                request()->routeIs('leave-requests.create') => __('Submit Leave Request'),
+                request()->routeIs('leave-requests.*') => __('Leave Requests'),
+                request()->routeIs('workforce.*') => __("Today's Workforce"),
+                request()->routeIs('statistics.*') => __('Leave Statistics'),
+                request()->routeIs('admin.dashboard') => __('Admin Dashboard'),
+                request()->routeIs('admin.*') => __('Admin'),
+                request()->routeIs('profile.*') => __('Settings'),
                 ! empty($routeName) => \Illuminate\Support\Str::of($routeName)->replace(['.', '-'], ' ')->title()->toString(),
                 default => config('app.name', 'Classter'),
             };
@@ -39,13 +39,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body
-        class="font-sans antialiased bg-[#0A0A0A] text-white"
-        data-toast-status="{{ session('status') }}"
-        data-toast-success="{{ session('success') }}"
-        data-toast-error="{{ session('error') }}"
-        data-toast-errors='@json($errors->all())'
-    >
+    <body class="font-sans antialiased bg-[#0A0A0A] text-white">
         <div class="min-h-screen lg:flex">
             @include('layouts.navigation')
 
@@ -59,6 +53,8 @@
                         @endisset
                     </div>
                 </header>
+
+                <x-flash-messages class="px-4 pt-4 sm:px-6 lg:px-10" />
 
                 <main class="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
                     {{ $slot }}

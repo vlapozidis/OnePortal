@@ -15,7 +15,7 @@
 
             <div>
                 <x-primary-button>
-                    {{ __('Resend Verification Email') }}
+                    <i class="bi bi-envelope-check mr-2"></i>{{ __('Resend Verification Email') }}
                 </x-primary-button>
             </div>
         </form>
@@ -24,7 +24,7 @@
             @csrf
 
             <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
+                <i class="bi bi-box-arrow-right mr-2"></i>{{ __('Log Out') }}
             </button>
         </form>
     </div>

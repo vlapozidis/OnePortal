@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -28,41 +29,61 @@ class DashboardController extends Controller
             ->latest('attendance_date')
             ->first();
 
+        $today = now()->startOfDay();
+
+        $checkedInToday = $latestAttendance
+            && $latestAttendance->attendance_date->isSameDay($today)
+            && $latestAttendance->checked_in_at !== null;
+
+        $checkedInDays = Attendance::query()
+            ->where('user_id', $user->id)
+            ->whereNotNull('checked_in_at')
+            ->whereBetween('attendance_date', [$today->copy()->startOfMonth(), $today->copy()->endOfMonth()])
+            ->pluck('attendance_date')
+            ->map(fn (Carbon $date) => $date->day)
+            ->all();
+
         $dashboardCards = [
             [
-                'label' => 'Employee Name',
+                'label' => __('Employee Name'),
                 'value' => $user->name,
-                'note' => 'From authenticated session',
+                'note' => __('From authenticated session'),
             ],
             [
-                'label' => 'Department',
-                'value' => $user->department?->name ?? 'Not assigned',
-                'note' => 'From profile assignment',
+                'label' => __('Department'),
+                'value' => $user->department?->name ?? __('Not assigned'),
+                'note' => __('From profile assignment'),
             ],
             [
-                'label' => 'Work Mode',
-                'value' => $user->work_mode ?? 'Not set',
-                'note' => 'From profile settings',
+                'label' => __('Work Mode'),
+                'value' => $user->work_mode ? __($user->work_mode) : __('Not set'),
+                'note' => __('From profile settings'),
             ],
             [
-                'label' => 'Approved Requests',
+                'label' => __('Approved Requests'),
                 'value' => (string) $approvedRequests,
-                'note' => 'Total approved leave requests',
+                'note' => __('Total approved leave requests'),
             ],
             [
-                'label' => 'Pending Requests',
+                'label' => __('Pending Requests'),
                 'value' => (string) $pendingRequests,
-                'note' => 'Awaiting review',
+                'note' => __('Awaiting review'),
             ],
             [
-                'label' => 'Latest Attendance',
-                'value' => $latestAttendance?->status ?? 'No record yet',
-                'note' => $latestAttendance?->attendance_date?->format('M j, Y') ?? 'Update your status in Workforce Today',
+                'label' => __('Latest Attendance'),
+                'value' => $latestAttendance?->status ?? __('No record yet'),
+                'note' => $latestAttendance?->attendance_date?->format('M j, Y') ?? __('Check in below to record it'),
             ],
         ];
 
         return view('dashboard', [
             'dashboardCards' => $dashboardCards,
+            'checkedInToday' => $checkedInToday,
+            'calendarMonthLabel' => $today->translatedFormat('F Y'),
+            'calendarDaysInMonth' => $today->daysInMonth,
+            'calendarLeadingBlanks' => $today->copy()->startOfMonth()->dayOfWeekIso - 1,
+            'calendarToday' => $today->day,
+            'checkedInDays' => $checkedInDays,
         ]);
     }
 }

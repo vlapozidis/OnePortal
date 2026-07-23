@@ -3,38 +3,25 @@
 use App\Models\Attendance;
 use App\Models\User;
 
-test('a user can update todays work status', function () {
-    $user = User::factory()->create();
+test('checking in stamps a checked in time using the profile work mode', function () {
+    $user = User::factory()->create(['work_mode' => 'Hybrid']);
 
-    $this->actingAs($user)->put(route('workforce.status.update'), [
-        'status' => 'Remote',
-    ])->assertRedirect(route('workforce.today'));
-
-    $this->assertDatabaseHas('attendances', [
-        'user_id' => $user->id,
-        'status' => 'Remote',
-    ]);
-});
-
-test('an invalid status is rejected', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user)->put(route('workforce.status.update'), [
-        'status' => 'Napping',
-    ])->assertSessionHasErrors('status');
-});
-
-test('checking in stamps a checked in time independent of status', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user)->put(route('workforce.checkin'), [
-        'status' => 'Leave',
-    ])->assertRedirect(route('workforce.today'));
+    $this->actingAs($user)->put(route('workforce.checkin'))->assertRedirect();
 
     $attendance = Attendance::where('user_id', $user->id)->first();
 
-    expect($attendance->status)->toBe('Leave');
+    expect($attendance->status)->toBe('Hybrid');
     expect($attendance->checked_in_at)->not->toBeNull();
+});
+
+test('checking in falls back to on site when no work mode is set', function () {
+    $user = User::factory()->create(['work_mode' => null]);
+
+    $this->actingAs($user)->put(route('workforce.checkin'))->assertRedirect();
+
+    $attendance = Attendance::where('user_id', $user->id)->first();
+
+    expect($attendance->status)->toBe('On Site');
 });
 
 test('todays workforce page summarizes statuses correctly', function () {

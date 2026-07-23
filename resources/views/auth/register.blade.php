@@ -45,7 +45,7 @@
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Register') }}
+                <i class="bi bi-person-plus mr-2"></i>{{ __('Register') }}
             </x-primary-button>
         </div>
     </form>

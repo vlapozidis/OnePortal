@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateTodayAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -49,38 +48,25 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function updateMyStatus(UpdateTodayAttendanceRequest $request): RedirectResponse
+    public function checkIn(Request $request): RedirectResponse
     {
+        $status = in_array($request->user()->work_mode, Attendance::WORK_STATUSES, true)
+            ? $request->user()->work_mode
+            : 'On Site';
+
         Attendance::updateOrCreate(
             [
                 'user_id' => $request->user()->id,
                 'attendance_date' => now()->toDateString(),
             ],
             [
-                'status' => $request->validated('status'),
-            ]
-        );
-
-        return redirect()
-            ->route('workforce.today')
-            ->with('status', 'Today status updated successfully.');
-    }
-
-    public function checkIn(UpdateTodayAttendanceRequest $request): RedirectResponse
-    {
-        Attendance::updateOrCreate(
-            [
-                'user_id' => $request->user()->id,
-                'attendance_date' => now()->toDateString(),
-            ],
-            [
-                'status' => $request->validated('status'),
+                'status' => $status,
                 'checked_in_at' => now(),
             ]
         );
 
         return redirect()
-            ->route('workforce.today')
-            ->with('status', 'Checked in successfully.');
+            ->back()
+            ->with('status', __('Checked in successfully.'));
     }
 }

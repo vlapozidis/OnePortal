@@ -7,22 +7,22 @@
 
     <div class="mx-auto max-w-7xl space-y-6">
         <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
-            <h3 class="text-lg font-semibold text-white">Leaves Per Month (Last 12 Months)</h3>
-            <div class="mt-4" style="position: relative; height: 300px;">
+            <h3 class="text-lg font-semibold text-white">{{ __('Leaves Per Month (Last 12 Months)') }}</h3>
+            <div class="mt-4" style="position: relative; height: 260px;">
                 <canvas id="leavesPerMonthChart"></canvas>
             </div>
         </div>
 
         <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
-            <h3 class="text-lg font-semibold text-white">Department Leave Usage (Top 10)</h3>
-            <div class="mt-4" style="position: relative; height: 350px;">
+            <h3 class="text-lg font-semibold text-white">{{ __('Department Leave Usage (Top 10)') }}</h3>
+            <div class="mt-4" style="position: relative; height: 300px;">
                 <canvas id="departmentLeaveChart"></canvas>
             </div>
         </div>
 
         <div class="overflow-hidden rounded-none border border-[#1F1F1F] bg-[#111111] p-6">
-            <h3 class="text-lg font-semibold text-white">Employee Leave Statistics (Top 10)</h3>
-            <div class="mt-4" style="position: relative; height: 400px;">
+            <h3 class="text-lg font-semibold text-white">{{ __('Employee Leave Statistics (Top 10)') }}</h3>
+            <div class="mt-4" style="position: relative; height: 340px;">
                 <canvas id="employeeLeaveChart"></canvas>
             </div>
         </div>
@@ -73,7 +73,7 @@
             data: {
                 labels: @json($leavesPerMonth['labels']),
                 datasets: [{
-                    label: 'Leave Requests',
+                    label: '{{ __('Leave Requests') }}',
                     data: @json($leavesPerMonth['data']),
                     borderColor: chartColors.primary,
                     backgroundColor: 'rgba(220, 38, 38, 0.1)',
@@ -103,7 +103,7 @@
             data: {
                 labels: @json($departmentLeaveUsage['labels']),
                 datasets: [{
-                    label: 'Leave Requests',
+                    label: '{{ __('Leave Requests') }}',
                     data: @json($departmentLeaveUsage['data']),
                     backgroundColor: [
                         chartColors.primary,
@@ -131,19 +131,19 @@
                 labels: @json($employeeLeaveStatistics['labels']),
                 datasets: [
                     {
-                        label: 'Approved',
+                        label: '{{ __('Approved') }}',
                         data: @json($employeeLeaveStatistics['approved']),
                         backgroundColor: chartColors.success,
                         borderRadius: 4,
                     },
                     {
-                        label: 'Pending',
+                        label: '{{ __('Pending') }}',
                         data: @json($employeeLeaveStatistics['pending']),
                         backgroundColor: chartColors.warning,
                         borderRadius: 4,
                     },
                     {
-                        label: 'Rejected',
+                        label: '{{ __('Rejected') }}',
                         data: @json($employeeLeaveStatistics['rejected']),
                         backgroundColor: chartColors.danger,
                         borderRadius: 4,

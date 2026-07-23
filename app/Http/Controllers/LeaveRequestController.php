@@ -44,6 +44,6 @@ class LeaveRequestController extends Controller
 
         return redirect()
             ->route('leave-requests.index')
-            ->with('status', 'Leave request submitted successfully.');
+            ->with('status', __('Leave request submitted successfully.'));
     }
 }
