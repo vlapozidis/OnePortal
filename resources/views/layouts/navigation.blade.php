@@ -88,6 +88,15 @@
                 >
                     <i class="bi bi-person-gear mr-2"></i>{{ __('Manage Users') }}
                 </a>
+
+                <a
+                    href="{{ url('/control-panel') }}"
+                    target="_blank"
+                    rel="noopener"
+                    class="block rounded-none px-3 py-2 text-sm font-medium text-[var(--portal-text-secondary)] transition hover:bg-[var(--portal-border)] hover:text-[var(--portal-text-primary)]"
+                >
+                    <i class="bi bi-box-arrow-up-right mr-2"></i>{{ __('Control Panel') }}
+                </a>
             @endif
 
             <a

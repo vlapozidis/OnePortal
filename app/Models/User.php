@@ -14,10 +14,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
 #[Fillable(['name', 'email', 'password', 'must_change_password', 'department_id', 'work_mode', 'role', 'theme', 'phone_number', 'avatar_path', 'entra_id', 'azure_tenant_id', 'entra_email', 'entra_profile', 'entra_synced_at', 'auth_provider', 'email_verified_at'])]
 #[Hidden(['password', 'remember_token', 'entra_profile'])]
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
@@ -61,6 +63,11 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin();
     }
 
     public function isEntraConnected(): bool
