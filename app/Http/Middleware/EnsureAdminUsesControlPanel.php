@@ -15,6 +15,7 @@ class EnsureAdminUsesControlPanel
      */
     private const ALLOWED_ROUTE_NAMES = [
         'logout',
+        'locale.switch',
     ];
 
     /**

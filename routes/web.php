@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminLeaveApprovalController;
-use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -16,7 +13,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::put('/locale/{locale}', function (string $locale) {
+Route::match(['get', 'put'], '/locale/{locale}', function (string $locale) {
     abort_unless(in_array($locale, App\Http\Middleware\SetLocale::SUPPORTED_LOCALES, true), 404);
 
     session(['locale' => $locale]);
@@ -41,22 +38,6 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
     Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('profile.avatar.destroy');
 });
-
-Route::middleware(['auth', 'admin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function (): void {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::patch('/leave-requests/{leaveRequest}/approve', [AdminLeaveApprovalController::class, 'approve'])
-            ->name('leave-requests.approve');
-        Route::patch('/leave-requests/{leaveRequest}/reject', [AdminLeaveApprovalController::class, 'reject'])
-            ->name('leave-requests.reject');
-
-        Route::resource('users', AdminUserController::class)
-            ->only(['index', 'create', 'store', 'destroy']);
-        Route::patch('/users/{user}/reset-password', [AdminUserController::class, 'resetPassword'])
-            ->name('users.reset-password');
-    });
 
 Route::middleware(['auth', 'admin'])->group(function (): void {
     Route::resource('departments', DepartmentController::class)

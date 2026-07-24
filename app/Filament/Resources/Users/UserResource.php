@@ -21,7 +21,20 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'bi-people';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Workforce';
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return __('Workforce');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('User');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Users');
+    }
 
     public static function form(Schema $schema): Schema
     {

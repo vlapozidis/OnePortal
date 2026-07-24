@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 
 class LeaveRequestsTable
@@ -18,20 +19,32 @@ class LeaveRequestsTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->defaultGroup(
+                Group::make('user.name')
+                    ->label(__('Employee'))
+                    ->collapsible()
+            )
+            ->collapsedGroupsByDefault()
+            ->groupingSettingsHidden()
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('Employee')
+                    ->label(__('Employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('department.name')
+                    ->label(__('Department'))
                     ->searchable(),
                 TextColumn::make('start_date')
+                    ->label(__('Start Date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('end_date')
+                    ->label(__('End Date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('Status'))
+                    ->formatStateUsing(fn (string $state) => __($state))
                     ->badge()
                     ->color(fn (string $state) => match ($state) {
                         'Approved' => 'success',
@@ -40,38 +53,41 @@ class LeaveRequestsTable
                     })
                     ->sortable(),
                 TextColumn::make('reviewer.name')
-                    ->label('Reviewed by')
+                    ->label(__('Reviewed By'))
                     ->placeholder('—'),
                 TextColumn::make('reviewed_at')
+                    ->label(__('Reviewed At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'Pending' => 'Pending',
-                        'Approved' => 'Approved',
-                        'Rejected' => 'Rejected',
+                        'Pending' => __('Pending'),
+                        'Approved' => __('Approved'),
+                        'Rejected' => __('Rejected'),
                     ]),
                 SelectFilter::make('department_id')
-                    ->label('Department')
+                    ->label(__('Department'))
                     ->relationship('department', 'name'),
             ])
             ->recordActions([
                 Action::make('approve')
-                    ->label('Approve')
+                    ->label(__('Approve'))
                     ->icon('bi-check-circle')
                     ->color('success')
                     ->visible(fn (LeaveRequest $record) => $record->status === 'Pending')
                     ->requiresConfirmation()
                     ->schema([
                         Textarea::make('admin_comment')
-                            ->label('Audit note (optional)'),
+                            ->label(__('Audit note (optional)')),
                     ])
                     ->action(function (LeaveRequest $record, array $data): void {
                         $record->update([
@@ -82,14 +98,14 @@ class LeaveRequestsTable
                         ]);
                     }),
                 Action::make('reject')
-                    ->label('Reject')
+                    ->label(__('Reject'))
                     ->icon('bi-x-circle')
                     ->color('danger')
                     ->visible(fn (LeaveRequest $record) => $record->status === 'Pending')
                     ->requiresConfirmation()
                     ->schema([
                         Textarea::make('admin_comment')
-                            ->label('Audit note (optional)'),
+                            ->label(__('Audit note (optional)')),
                     ])
                     ->action(function (LeaveRequest $record, array $data): void {
                         $record->update([

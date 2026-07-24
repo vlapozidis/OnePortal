@@ -15,37 +15,44 @@ class LeaveRequestForm
         return $schema
             ->components([
                 Select::make('user_id')
-                    ->label('Employee')
+                    ->label(__('Employee'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->required(),
                 Select::make('department_id')
+                    ->label(__('Department'))
                     ->relationship('department', 'name')
                     ->searchable()
                     ->preload(),
                 DatePicker::make('start_date')
+                    ->label(__('Start Date'))
                     ->required(),
                 DatePicker::make('end_date')
+                    ->label(__('End Date'))
                     ->required()
                     ->afterOrEqual('start_date'),
                 Textarea::make('reason')
+                    ->label(__('Reason'))
                     ->columnSpanFull(),
                 Select::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'Pending' => 'Pending',
-                        'Approved' => 'Approved',
-                        'Rejected' => 'Rejected',
+                        'Pending' => __('Pending'),
+                        'Approved' => __('Approved'),
+                        'Rejected' => __('Rejected'),
                     ])
                     ->required()
                     ->default('Pending'),
                 Select::make('reviewed_by')
-                    ->label('Reviewed by')
+                    ->label(__('Reviewed By'))
                     ->relationship('reviewer', 'name')
                     ->searchable()
                     ->preload(),
-                DateTimePicker::make('reviewed_at'),
+                DateTimePicker::make('reviewed_at')
+                    ->label(__('Reviewed At')),
                 Textarea::make('admin_comment')
+                    ->label(__('Admin Comment'))
                     ->columnSpanFull(),
             ]);
     }

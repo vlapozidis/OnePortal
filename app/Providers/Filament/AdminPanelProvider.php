@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\EditProfile;
 use App\Http\Middleware\RedirectAdminPasswordChangeToProfile;
+use App\Http\Middleware\SetLocale;
+use Filament\Actions\Action;
 use Filament\Actions\View\ActionsIconAlias;
 use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
 use Filament\Support\Facades\FilamentIcon;
@@ -105,6 +107,7 @@ class AdminPanelProvider extends PanelProvider
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 AuthenticateSession::class,
+                SetLocale::class,
                 ShareErrorsFromSession::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,
@@ -115,6 +118,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->userMenuItems($this->getLanguageMenuItems())
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
                 fn (): string => <<<'HTML'
@@ -132,5 +136,25 @@ class AdminPanelProvider extends PanelProvider
                     </style>
                     HTML,
             );
+    }
+
+    /**
+     * @return array<string, Action>
+     */
+    private function getLanguageMenuItems(): array
+    {
+        $locales = ['en' => 'English', 'el' => 'Ελληνικά'];
+        $current = app()->getLocale();
+        $items = [];
+
+        foreach ($locales as $code => $label) {
+            $items['locale_'.$code] = Action::make('locale_'.$code)
+                ->label($label)
+                ->icon('bi-translate')
+                ->color($current === $code ? 'primary' : 'gray')
+                ->url(fn (): string => route('locale.switch', $code));
+        }
+
+        return $items;
     }
 }

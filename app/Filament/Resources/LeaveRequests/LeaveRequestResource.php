@@ -19,7 +19,20 @@ class LeaveRequestResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'bi-calendar2-check';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Workforce';
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return __('Workforce');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Leave Request');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Leave Requests');
+    }
 
     public static function getNavigationBadge(): ?string
     {

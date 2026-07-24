@@ -15,18 +15,22 @@ class AttendanceForm
         return $schema
             ->components([
                 Select::make('user_id')
-                    ->label('Employee')
+                    ->label(__('Employee'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->required(),
                 DatePicker::make('attendance_date')
+                    ->label(__('Attendance Date'))
                     ->required(),
                 Select::make('status')
-                    ->options(array_combine(Attendance::WORK_STATUSES, Attendance::WORK_STATUSES))
+                    ->label(__('Status'))
+                    ->options(array_combine(Attendance::WORK_STATUSES, array_map('__', Attendance::WORK_STATUSES)))
                     ->required(),
-                DateTimePicker::make('checked_in_at'),
-                DateTimePicker::make('checked_out_at'),
+                DateTimePicker::make('checked_in_at')
+                    ->label(__('Checked In At')),
+                DateTimePicker::make('checked_out_at')
+                    ->label(__('Checked Out At')),
             ]);
     }
 }

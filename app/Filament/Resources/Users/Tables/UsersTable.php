@@ -21,49 +21,57 @@ class UsersTable
         return $table
             ->columns([
                 ImageColumn::make('avatar_url')
-                    ->label('Photo')
+                    ->label(__('Photo'))
                     ->circular()
                     ->size(32),
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label(__('Email address'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('department.name')
-                    ->label('Department')
+                    ->label(__('Department'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('role')
+                    ->label(__('Role'))
+                    ->formatStateUsing(fn (string $state) => __(ucfirst($state)))
                     ->badge()
                     ->color(fn (string $state) => $state === 'admin' ? 'danger' : 'gray')
                     ->sortable(),
                 TextColumn::make('work_mode')
+                    ->label(__('Work Mode'))
+                    ->formatStateUsing(fn (?string $state) => $state ? __($state) : null)
                     ->badge()
                     ->sortable(),
                 IconColumn::make('auth_provider')
-                    ->label('Entra ID')
+                    ->label(__('Entra ID'))
                     ->boolean()
                     ->state(fn ($record) => $record->auth_provider === 'entra')
                     ->trueIcon('bi-microsoft')
                     ->falseIcon('bi-dash'),
                 TextColumn::make('phone_number')
+                    ->label(__('Phone Number'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('role')
+                    ->label(__('Role'))
                     ->options([
-                        'admin' => 'Admin',
-                        'employee' => 'Employee',
+                        'admin' => __('Admin'),
+                        'employee' => __('Employee'),
                     ]),
                 SelectFilter::make('department_id')
-                    ->label('Department')
+                    ->label(__('Department'))
                     ->relationship('department', 'name'),
                 TrashedFilter::make(),
             ])
