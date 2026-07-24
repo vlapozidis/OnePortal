@@ -78,6 +78,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('control-panel')
+            ->favicon(asset('images/favicon.png'))
             ->profile(EditProfile::class, isSimple: false)
             ->brandName(config('app.name', 'OnePortal').' Control Panel')
             ->brandLogo(fn () => new HtmlString(

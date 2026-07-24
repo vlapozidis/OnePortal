@@ -28,6 +28,7 @@ class EnsureAdminUsesControlPanel
             $user
             && $user->isAdmin()
             && ! $request->is('control-panel*')
+            && ! $request->is('livewire*')
             && ! $request->routeIs(...self::ALLOWED_ROUTE_NAMES)
         ) {
             return redirect('/control-panel');
