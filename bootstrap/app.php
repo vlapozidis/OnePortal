@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckEntraIDConfiguration;
+use App\Http\Middleware\EnsureAdminUsesControlPanel;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\ForceHttps;
 use App\Http\Middleware\RedirectIfPasswordChangeRequired;
@@ -37,6 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             SecurityHeaders::class,
             SetLocale::class,
             RedirectIfPasswordChangeRequired::class,
+            EnsureAdminUsesControlPanel::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -69,6 +69,10 @@ class EntraIDController extends Controller
 
         $request->session()->regenerate();
 
+        if ($user->isAdmin()) {
+            return redirect()->intended('/control-panel');
+        }
+
         return redirect()->intended(route('dashboard'));
     }
 

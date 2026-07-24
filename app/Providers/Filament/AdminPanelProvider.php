@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\EditProfile;
+use App\Http\Middleware\RedirectAdminPasswordChangeToProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('control-panel')
             ->login()
+            ->profile(EditProfile::class, isSimple: false)
             ->brandName(config('app.name', 'OnePortal').' Control Panel')
             ->colors([
                 'primary' => Color::Red,
@@ -50,6 +53,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RedirectAdminPasswordChangeToProfile::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

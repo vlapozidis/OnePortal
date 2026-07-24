@@ -26,6 +26,10 @@ class RedirectIfPasswordChangeRequired
     {
         $user = $request->user();
 
+        if ($user && $user->isAdmin()) {
+            return $next($request);
+        }
+
         if ($user && $user->must_change_password && ! $request->routeIs(...self::ALLOWED_ROUTES)) {
             return redirect()->route('password.force-change');
         }
