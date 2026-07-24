@@ -7,13 +7,6 @@ test('guests are redirected to login from protected pages', function () {
     $this->get('/dashboard')->assertRedirect('/login');
     $this->get('/departments')->assertRedirect('/login');
     $this->get('/workforce/today')->assertRedirect('/login');
-    $this->get('/admin/dashboard')->assertRedirect('/login');
-});
-
-test('regular users cannot reach admin only pages', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user)->get('/admin/dashboard')->assertForbidden();
 });
 
 test('regular users cannot create a department, even by visiting the url directly', function () {
@@ -36,8 +29,3 @@ test('regular users cannot edit or delete an existing department by guessing its
     expect($department->fresh()->name)->toBe('Original Name');
 });
 
-test('admins can reach admin only pages', function () {
-    $admin = User::factory()->admin()->create();
-
-    $this->actingAs($admin)->get('/admin/dashboard')->assertOk();
-});

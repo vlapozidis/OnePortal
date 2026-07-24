@@ -10,11 +10,6 @@
         @php
             $pageTitle = match (true) {
                 request()->routeIs('login') => __('Login'),
-                request()->routeIs('register') => __('Register'),
-                request()->routeIs('password.request') => __('Forgot Password'),
-                request()->routeIs('password.reset') => __('Reset Password'),
-                request()->routeIs('verification.notice') => __('Verify Email'),
-                request()->routeIs('password.confirm') => __('Confirm Password'),
                 request()->routeIs('password.force-change') => __('Set New Password'),
                 default => null,
             };

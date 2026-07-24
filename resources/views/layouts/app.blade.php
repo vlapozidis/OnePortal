@@ -16,8 +16,6 @@
                 request()->routeIs('leave-requests.*') => __('Leave Requests'),
                 request()->routeIs('workforce.*') => __("Today's Workforce"),
                 request()->routeIs('statistics.*') => __('Leave Statistics'),
-                request()->routeIs('admin.dashboard') => __('Admin Dashboard'),
-                request()->routeIs('admin.*') => __('Admin'),
                 request()->routeIs('profile.*') => __('Settings'),
                 ! empty($routeName) => \Illuminate\Support\Str::of($routeName)->replace(['.', '-'], ' ')->title()->toString(),
                 default => config('app.name', 'OnePortal'),

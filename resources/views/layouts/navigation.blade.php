@@ -76,20 +76,6 @@
 
             @if (Auth::user()->isAdmin())
                 <a
-                    href="{{ route('admin.dashboard') }}"
-                    class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.dashboard') ? 'bg-[var(--portal-primary)]/20 text-[var(--portal-text-primary)]' : 'text-[var(--portal-text-secondary)] hover:bg-[var(--portal-border)] hover:text-[var(--portal-text-primary)]' }}"
-                >
-                    <i class="bi bi-shield-lock mr-2"></i>{{ __('Admin Dashboard') }}
-                </a>
-
-                <a
-                    href="{{ route('admin.users.index') }}"
-                    class="block rounded-none px-3 py-2 text-sm font-medium transition {{ request()->routeIs('admin.users.*') ? 'bg-[var(--portal-primary)]/20 text-[var(--portal-text-primary)]' : 'text-[var(--portal-text-secondary)] hover:bg-[var(--portal-border)] hover:text-[var(--portal-text-primary)]' }}"
-                >
-                    <i class="bi bi-person-gear mr-2"></i>{{ __('Manage Users') }}
-                </a>
-
-                <a
                     href="{{ url('/control-panel') }}"
                     target="_blank"
                     rel="noopener"
