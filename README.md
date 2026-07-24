@@ -150,9 +150,7 @@ This helps teams coordinate more efficiently and improves organizational visibil
 ## Workforce Visibility Preview 
 
 
-
-
-<img width="1869" height="882" alt="Screenshot_5" src="https://github.com/user-attachments/assets/fb3cfc7e-f452-4115-b7e1-13ad086d2cad" />
+<img width="1906" height="733" alt="image" src="https://github.com/user-attachments/assets/503753a9-fc07-49e6-bf2e-baa4936b8f33" />
 
 
 ---
@@ -168,8 +166,8 @@ Users can:
 * Maintain account information
 
 ## User Profile Management Preview
-<img width="1868" height="904" alt="Screenshot_7" src="https://github.com/user-attachments/assets/d699eb62-7670-4c6a-a370-6d42787803b0" />
 
+<img width="1863" height="875" alt="image" src="https://github.com/user-attachments/assets/44d43a4a-511d-4788-b1af-d727b4ae7cb0" />
 
 ---
 
@@ -210,20 +208,20 @@ The Control Panel provides:
 ## Dashboard Preview
 
 
-<img width="1886" height="717" alt="Screenshot_1" src="https://github.com/user-attachments/assets/18b29d83-ef62-4bee-8169-317e90d412d4" />
+<img width="1875" height="893" alt="image" src="https://github.com/user-attachments/assets/df3be296-41b4-4544-a1a4-e8a4f8e4582c" />
 
 ---
 
 ## Employee Directory Preview
 
+<img width="1883" height="593" alt="image" src="https://github.com/user-attachments/assets/38801e2b-1fe6-45f4-8ca4-b0a310e1ffa2" />
 
-<img width="1872" height="695" alt="Screenshot_2" src="https://github.com/user-attachments/assets/a54ec171-844f-48be-a61c-b39dca59766b" />
 
 ---
 
 ## Leave Requests Preview
 
-<img width="1874" height="695" alt="Screenshot_4" src="https://github.com/user-attachments/assets/e19b20a4-d669-4ff7-a93a-cb35f9cf6664" />
+<img width="1880" height="899" alt="image" src="https://github.com/user-attachments/assets/e8b09ed3-cda0-40d8-8ed8-558218299c49" />
 
 
 ---
@@ -259,7 +257,7 @@ The Control Panel provides:
 
 ## Login Page
 
-<img width="1617" height="810" alt="Screenshot_10" src="https://github.com/user-attachments/assets/c7c83ccc-84bf-41a4-997f-c72850a333af" />
+<img width="1743" height="883" alt="image" src="https://github.com/user-attachments/assets/5c736e45-cc36-49e3-b653-534cd6917c8a" />
 
 
 
@@ -268,7 +266,8 @@ The Control Panel provides:
 * Chart.js
 
 ## Charts & Analytics Preview
-<img width="1869" height="887" alt="Screenshot_6" src="https://github.com/user-attachments/assets/6c39aae8-0dc6-485a-850f-8444d4c96409" />
+
+<img width="1871" height="895" alt="image" src="https://github.com/user-attachments/assets/013a40de-f860-4f24-9041-2053af25b158" />
 
 ---
 
