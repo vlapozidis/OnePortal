@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node test-charts-calendar.js)",
+      "Bash(node test-range.js)",
+      "Bash(node test-range-shot.js)",
+      "Bash(cp \"/c/Users/VladimirosPozidis/Downloads/logo_login.png\" ./PortalLogin.png)",
+      "Bash(cp \"/c/Users/VladimirosPozidis/Downloads/favicon.png\" ./favicon.png)",
+      "Bash(cp \"/c/Users/VladimirosPozidis/Downloads/favicon.png\" ./logofree.png)"
+    ]
+  }
+}
