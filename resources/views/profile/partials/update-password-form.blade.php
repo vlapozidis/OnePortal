@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-white">
+        <h2 class="text-lg font-medium text-[var(--portal-text-primary)]">
             {{ __('Update Password') }}
         </h2>
 
-        <p class="mt-1 text-sm text-[#A1A1AA]">
+        <p class="mt-1 text-sm text-[var(--portal-text-secondary)]">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
         </p>
     </header>
@@ -41,13 +41,13 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-[#A1A1AA]"
+                    class="text-sm text-[var(--portal-text-secondary)]"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
     @else
-        <p class="mt-6 text-sm text-[#A1A1AA]">
+        <p class="mt-6 text-sm text-[var(--portal-text-secondary)]">
             {{ __('Password updates are not available in the current authentication setup.') }}
         </p>
     @endif

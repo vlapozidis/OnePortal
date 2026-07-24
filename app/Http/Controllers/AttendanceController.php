@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\LeaveRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,6 +51,12 @@ class AttendanceController extends Controller
 
     public function checkIn(Request $request): RedirectResponse
     {
+        abort_if(
+            $this->isOnApprovedLeaveToday($request->user()->id),
+            403,
+            __('You are on approved leave today and cannot check in.')
+        );
+
         $status = in_array($request->user()->work_mode, Attendance::WORK_STATUSES, true)
             ? $request->user()->work_mode
             : 'On Site';
@@ -72,6 +79,12 @@ class AttendanceController extends Controller
 
     public function checkOut(Request $request): RedirectResponse
     {
+        abort_if(
+            $this->isOnApprovedLeaveToday($request->user()->id),
+            403,
+            __('You are on approved leave today and cannot check out.')
+        );
+
         abort_unless(
             now()->hour >= Attendance::CHECK_OUT_AVAILABLE_FROM_HOUR,
             403,
@@ -91,5 +104,15 @@ class AttendanceController extends Controller
         return redirect()
             ->back()
             ->with('status', __('Checked out successfully.'));
+    }
+
+    private function isOnApprovedLeaveToday(int $userId): bool
+    {
+        return LeaveRequest::query()
+            ->where('user_id', $userId)
+            ->where('status', 'Approved')
+            ->whereDate('start_date', '<=', now()->toDateString())
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->exists();
     }
 }

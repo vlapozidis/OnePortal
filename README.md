@@ -2,7 +2,7 @@
 <tr>
 <td width="60%">
 
-# Classter Employee Portal
+# OnePortal
 
 A modern internal employee management portal built with Laravel and Blade, designed to simplify employee administration, leave management, workforce visibility, and internal operations.
 
@@ -19,7 +19,7 @@ A modern internal employee management portal built with Laravel and Blade, desig
 
 <td width="40%">
 
-<img src="https://github.com/user-attachments/assets/a7803eaa-f837-4fe5-b2c3-6748eee728fb" width="350">
+<img src="public/images/PortalLogin.png" width="350" alt="OnePortal logo">
 
 </td>
 </tr>
@@ -29,11 +29,38 @@ A modern internal employee management portal built with Laravel and Blade, desig
 
 ## Overview
 
-Classter Employee Portal is a centralized platform that allows employees and administrators to manage daily workforce operations through a clean and secure interface.
+OnePortal is a centralized platform that allows employees and administrators to manage daily workforce operations through a clean and secure interface.
 
 The application provides visibility into employee availability, leave requests, work locations, and organizational information while maintaining a simple and intuitive user experience.
 
 Built with Laravel and Blade, the platform follows a lightweight and maintainable architecture suitable for internal company environments.
+
+---
+
+## Recent Updates
+
+### Light / Dark Theme
+
+The portal now defaults to a mild white theme, with a per-user light/dark toggle in the sidebar. The preference is saved to the user's account (not just the browser) so it follows them across devices. Every page and shared component (buttons, modals, forms, tables, charts) uses a shared set of CSS custom properties (`--portal-bg`, `--portal-surface`, `--portal-border`, `--portal-primary`, `--portal-text-primary`, `--portal-text-secondary`) so both themes stay visually consistent.
+
+### Interactive Leave Calendar
+
+Both the Dashboard and the Leave Requests page now show a real calendar for the current month, with:
+
+* **Click-to-request** — click a day to open the leave request form with that date pre-filled, or click a second day to pre-fill a multi-day range.
+* **Status badges** — days show **ON LEAVE** (approved), **?** (pending review), or **X** (rejected), based on the user's own leave requests.
+* **No duplicate requests** — a day that already has a pending, approved, or rejected request can't be selected again.
+* **Month navigation** — prev/next arrows to browse past and future months.
+
+### Leave / Attendance Integration
+
+An employee with an approved leave request covering today is blocked from checking in or out, and the dashboard shows an "on approved leave today" message instead of the check-in button.
+
+### Other fixes
+
+* Confirmation modals (delete user, delete account, etc.) are now centered on screen with correct contrast in dark mode.
+* Chart.js graphs on the Statistics page now render correctly in dark mode (axis labels, gridlines, and legend were previously invisible).
+* Rebranded to **OnePortal**, including new logo and favicon assets.
 
 ---
 
@@ -266,9 +293,9 @@ database/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/ClassterEmployeePortal.git
+git clone https://github.com/yourusername/OnePortal.git
 
-cd ClassterEmployeePortal
+cd OnePortal
 ```
 
 ### Install Dependencies
@@ -333,7 +360,7 @@ If you have Herd installed:
 Example:
 
 ```text
-https://classteremployeeportal.test
+https://portalproject.test
 ```
 
 #### Option 2: Laravel Development Server
@@ -364,7 +391,6 @@ Planned features include:
 * Department Statistics
 * Export Functionality
 * Audit Logs
-* Team Calendar
 
 ---
 
@@ -378,15 +404,15 @@ Environment-specific configuration is managed through `.env` files.
 
 ## License
 
-© 2026 Classter. All rights reserved.
+© 2026 OnePortal. All rights reserved.
 
-This repository contains proprietary software developed for Classter's internal use.
+This repository contains proprietary software developed for OnePortal's internal use.
 
-The contents of this repository, including source code, documentation, and assets, are confidential and may not be reproduced, distributed, modified, or disclosed without prior written permission from Classter.
+The contents of this repository, including source code, documentation, and assets, are confidential and may not be reproduced, distributed, modified, or disclosed without prior written permission from OnePortal.
 
 ---
 
 ## Author
 
-Developed for Classter's internal workforce management platform.
+Developed for OnePortal's internal workforce management platform.
 Designed to streamline employee management, leave requests, workforce visibility, and administrative operations.

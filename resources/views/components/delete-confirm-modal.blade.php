@@ -5,9 +5,9 @@
         @csrf
         @method('DELETE')
 
-        <h2 class="text-lg font-medium text-white">{{ $title }}</h2>
+        <h2 class="text-lg font-medium text-[var(--portal-text-primary)]">{{ $title }}</h2>
 
-        <p class="mt-1 text-sm text-[#A1A1AA]">{{ $message }}</p>
+        <p class="mt-1 text-sm text-[var(--portal-text-secondary)]">{{ $message }}</p>
 
         <div class="mt-6 flex justify-end gap-3">
             <x-secondary-button x-on:click="$dispatch('close')">

@@ -1,14 +1,14 @@
 @props(['class' => ''])
 
 <div {{ $attributes->merge(['class' => 'flex items-center gap-1 '.$class]) }}>
-    <i class="bi bi-globe2 mr-1 text-[#A1A1AA]"></i>
+    <i class="bi bi-globe2 mr-1 text-[var(--portal-text-secondary)]"></i>
     @foreach (['en' => 'EN', 'el' => 'ΕΛ'] as $code => $label)
         <form method="POST" action="{{ route('locale.switch', $code) }}">
             @csrf
             @method('PUT')
             <button
                 type="submit"
-                class="rounded-none border px-2 py-1 text-xs font-semibold transition {{ app()->getLocale() === $code ? 'border-[#DC2626] bg-[#DC2626]/20 text-white' : 'border-[#1F1F1F] text-[#A1A1AA] hover:border-[#333333] hover:text-white' }}"
+                class="rounded-none border px-2 py-1 text-xs font-semibold transition {{ app()->getLocale() === $code ? 'border-[var(--portal-primary)] bg-[var(--portal-primary)]/20 text-white' : 'border-[var(--portal-border)] text-[var(--portal-text-secondary)] hover:border-[var(--portal-text-secondary)] hover:text-[var(--portal-text-primary)]' }}"
                 @if (app()->getLocale() === $code) aria-current="true" @endif
             >
                 {{ $label }}

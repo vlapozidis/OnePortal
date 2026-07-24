@@ -12,8 +12,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
-#[Fillable(['name', 'email', 'password', 'must_change_password', 'department_id', 'work_mode', 'role', 'phone_number', 'entra_id', 'azure_tenant_id', 'entra_email', 'entra_profile', 'entra_synced_at', 'auth_provider', 'email_verified_at'])]
+#[Fillable(['name', 'email', 'password', 'must_change_password', 'department_id', 'work_mode', 'role', 'theme', 'phone_number', 'avatar_path', 'entra_id', 'azure_tenant_id', 'entra_email', 'entra_profile', 'entra_synced_at', 'auth_provider', 'email_verified_at'])]
 #[Hidden(['password', 'remember_token', 'entra_profile'])]
 class User extends Authenticatable
 {
@@ -59,6 +61,27 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isEntraConnected(): bool
+    {
+        return $this->auth_provider === 'entra';
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar_path ? Storage::disk('public')->url($this->avatar_path) : null;
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        $initials = collect(explode(' ', trim($this->name)))
+            ->filter()
+            ->map(fn (string $part) => Str::substr($part, 0, 1))
+            ->take(2)
+            ->implode('');
+
+        return Str::upper($initials) ?: '?';
     }
 
     /**

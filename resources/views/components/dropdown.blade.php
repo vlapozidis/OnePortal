@@ -1,4 +1,4 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'border border-[#1F1F1F] bg-[#111111] py-1'])
+@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'border border-[var(--portal-border)] bg-[var(--portal-surface)] py-1'])
 
 @php
 $alignmentClasses = match ($align) {

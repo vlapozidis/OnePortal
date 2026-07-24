@@ -9,10 +9,26 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 @layer base {
     :root {
+        --portal-bg: #f7f7f8;
+        --portal-surface: #ffffff;
+        --portal-elevated: #ffffff;
+        --portal-border: #e4e4e7;
+        --portal-primary: #dc2626;
+        --portal-primary-hover: #b91c1c;
+        --portal-text-primary: #18181b;
+        --portal-text-secondary: #52525b;
+    }
+
+    html.dark {
         --portal-bg: #0a0a0a;
         --portal-surface: #111111;
+        --portal-elevated: #1c1c1e;
         --portal-border: #1f1f1f;
         --portal-primary: #dc2626;
         --portal-primary-hover: #b91c1c;
@@ -23,5 +39,6 @@
     body {
         background-color: var(--portal-bg);
         color: var(--portal-text-primary);
+        transition: background-color 0.15s ease, color 0.15s ease;
     }
 }
