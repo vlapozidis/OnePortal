@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\EditProfile;
 use App\Http\Middleware\RedirectAdminPasswordChangeToProfile;
+use Filament\Actions\View\ActionsIconAlias;
+use Filament\Support\Facades\FilamentIcon;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -12,6 +14,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -22,6 +25,36 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+    public function boot(): void
+    {
+        FilamentIcon::register([
+            ActionsIconAlias::ACTION_GROUP => 'bi-three-dots',
+            ActionsIconAlias::CREATE_ACTION_GROUPED => 'bi-plus-lg',
+            ActionsIconAlias::DELETE_ACTION => 'bi-trash',
+            ActionsIconAlias::DELETE_ACTION_GROUPED => 'bi-trash',
+            ActionsIconAlias::DELETE_ACTION_MODAL => 'bi-exclamation-triangle',
+            ActionsIconAlias::DETACH_ACTION => 'bi-x-circle',
+            ActionsIconAlias::DETACH_ACTION_MODAL => 'bi-exclamation-triangle',
+            ActionsIconAlias::DISSOCIATE_ACTION => 'bi-x-circle',
+            ActionsIconAlias::DISSOCIATE_ACTION_MODAL => 'bi-exclamation-triangle',
+            ActionsIconAlias::EDIT_ACTION => 'bi-pencil-square',
+            ActionsIconAlias::EDIT_ACTION_GROUPED => 'bi-pencil-square',
+            ActionsIconAlias::EXPORT_ACTION_GROUPED => 'bi-download',
+            ActionsIconAlias::FORCE_DELETE_ACTION => 'bi-trash3-fill',
+            ActionsIconAlias::FORCE_DELETE_ACTION_GROUPED => 'bi-trash3-fill',
+            ActionsIconAlias::FORCE_DELETE_ACTION_MODAL => 'bi-exclamation-triangle',
+            ActionsIconAlias::IMPORT_ACTION_GROUPED => 'bi-upload',
+            ActionsIconAlias::MODAL_CONFIRMATION => 'bi-question-circle',
+            ActionsIconAlias::REPLICATE_ACTION => 'bi-copy',
+            ActionsIconAlias::REPLICATE_ACTION_GROUPED => 'bi-copy',
+            ActionsIconAlias::RESTORE_ACTION => 'bi-arrow-counterclockwise',
+            ActionsIconAlias::RESTORE_ACTION_GROUPED => 'bi-arrow-counterclockwise',
+            ActionsIconAlias::RESTORE_ACTION_MODAL => 'bi-arrow-counterclockwise',
+            ActionsIconAlias::VIEW_ACTION => 'bi-eye',
+            ActionsIconAlias::VIEW_ACTION_GROUPED => 'bi-eye',
+        ]);
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -57,6 +90,17 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): string => <<<'HTML'
+                    <style>
+                        [class*="rounded-"]:not([class*="rounded-full"]),
+                        .rounded {
+                            border-radius: 0 !important;
+                        }
+                    </style>
+                    HTML,
+            );
     }
 }

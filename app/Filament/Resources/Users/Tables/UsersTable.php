@@ -13,7 +13,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Filament\Support\Icons\Heroicon;
 
 class UsersTable
 {
@@ -47,8 +46,8 @@ class UsersTable
                     ->label('Entra ID')
                     ->boolean()
                     ->state(fn ($record) => $record->auth_provider === 'entra')
-                    ->trueIcon(Heroicon::OutlinedCheckBadge)
-                    ->falseIcon(Heroicon::OutlinedMinus),
+                    ->trueIcon('bi-microsoft')
+                    ->falseIcon('bi-dash'),
                 TextColumn::make('phone_number')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),

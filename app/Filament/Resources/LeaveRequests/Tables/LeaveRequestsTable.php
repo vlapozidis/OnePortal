@@ -11,7 +11,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Filament\Support\Icons\Heroicon;
 
 class LeaveRequestsTable
 {
@@ -66,7 +65,7 @@ class LeaveRequestsTable
             ->recordActions([
                 Action::make('approve')
                     ->label('Approve')
-                    ->icon(Heroicon::OutlinedCheckCircle)
+                    ->icon('bi-check-circle')
                     ->color('success')
                     ->visible(fn (LeaveRequest $record) => $record->status === 'Pending')
                     ->requiresConfirmation()
@@ -84,7 +83,7 @@ class LeaveRequestsTable
                     }),
                 Action::make('reject')
                     ->label('Reject')
-                    ->icon(Heroicon::OutlinedXCircle)
+                    ->icon('bi-x-circle')
                     ->color('danger')
                     ->visible(fn (LeaveRequest $record) => $record->status === 'Pending')
                     ->requiresConfirmation()
