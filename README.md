@@ -228,7 +228,7 @@ The Control Panel provides:
 
 ## Control Panel Preview
 
-<img width="1866" height="857" alt="Screenshot_8" src="https://github.com/user-attachments/assets/8968917b-2c2d-487c-8cad-5a08985f65f5" />
+<img width="1894" height="879" alt="image" src="https://github.com/user-attachments/assets/90420c86-c00f-4954-b64a-74dec19b6941" />
 
 ---
 
