@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\EditProfile;
 use App\Http\Middleware\RedirectAdminPasswordChangeToProfile;
 use Filament\Actions\View\ActionsIconAlias;
+use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -25,6 +26,21 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->bind(LogoutResponse::class, function () {
+            return new class implements LogoutResponse
+            {
+                public function toResponse($request)
+                {
+                    return redirect()->route('login');
+                }
+            };
+        });
+    }
+
     public function boot(): void
     {
         FilamentIcon::register([
@@ -61,7 +77,6 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('control-panel')
-            ->login()
             ->profile(EditProfile::class, isSimple: false)
             ->brandName(config('app.name', 'OnePortal').' Control Panel')
             ->colors([
