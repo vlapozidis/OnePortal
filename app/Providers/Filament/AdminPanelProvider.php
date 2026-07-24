@@ -22,6 +22,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -79,6 +80,13 @@ class AdminPanelProvider extends PanelProvider
             ->path('control-panel')
             ->profile(EditProfile::class, isSimple: false)
             ->brandName(config('app.name', 'OnePortal').' Control Panel')
+            ->brandLogo(fn () => new HtmlString(
+                '<div style="display:flex;align-items:center;gap:0.5rem;height:2rem">'
+                .'<img src="'.e(asset('images/logofree.png')).'" alt="'.e(config('app.name', 'OnePortal')).'" style="height:2rem;width:auto;display:block" />'
+                .'<span style="font-size:1rem;font-weight:700;line-height:1;white-space:nowrap">'.e(config('app.name', 'OnePortal').' Control Panel').'</span>'
+                .'</div>'
+            ))
+            ->brandLogoHeight('2rem')
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -110,9 +118,15 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::HEAD_END,
                 fn (): string => <<<'HTML'
                     <style>
-                        [class*="rounded-"]:not([class*="rounded-full"]),
-                        .rounded {
+                        * {
                             border-radius: 0 !important;
+                        }
+                        .fi-circular,
+                        .fi-avatar,
+                        .fi-user-avatar,
+                        .fi-toggle,
+                        .fi-toggle * {
+                            border-radius: 9999px !important;
                         }
                     </style>
                     HTML,
