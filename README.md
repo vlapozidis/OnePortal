@@ -4,7 +4,7 @@
 
 # OnePortal
 
-A modern internal employee management portal built with Laravel and Blade, designed to simplify employee administration, leave management, workforce visibility, and internal operations.
+A modern internal employee management portal built with Laravel and Blade, designed to simplify employee administration, leave management, workforce visibility, and internal operations. Administration is handled through a separate Filament-powered **Control Panel**, kept fully independent from the employee-facing portal.
 
 ### Features
 
@@ -12,7 +12,7 @@ A modern internal employee management portal built with Laravel and Blade, desig
 - Leave Management
 - Employee Directory
 - Workforce Visibility
-- Admin Panel
+- Filament Control Panel (Users, Departments, Attendance, Leave Requests)
 - Profile Management
 
 </td>
@@ -35,9 +35,17 @@ The application provides visibility into employee availability, leave requests, 
 
 Built with Laravel and Blade, the platform follows a lightweight and maintainable architecture suitable for internal company environments.
 
+The employee-facing portal and the admin experience are fully separated: employees use the Blade portal at the root domain, while admins are routed to a dedicated **Control Panel** built with [Filament](https://filamentphp.com) at `/control-panel`. An admin account is redirected there automatically and can't fall back to the employee portal's pages.
+
 ---
 
 ## Recent Updates
+
+### Control Panel Improvements
+
+* Attendance and Leave Request tables in the Control Panel now group records by employee, collapsed by default — pick an employee to expand their history and edit individual records, instead of scrolling a flat list of every record.
+* The language switcher moved out of the topbar and into the admin's user menu (click the avatar in the top-right).
+* Removed the legacy in-portal admin dashboard, user management, and leave-approval pages (and their routes/views/controllers) now that the Control Panel fully covers that functionality, along with unused local-registration/password-reset scaffolding left over from the switch to Microsoft Entra ID.
 
 ### Light / Dark Theme
 
@@ -173,7 +181,7 @@ The portal uses a simple role system.
 
 #### User
 
-Standard employee access.
+Standard employee access to the portal.
 
 Permissions:
 
@@ -187,18 +195,15 @@ Permissions:
 
 #### Admin
 
-Full administrative access.
+Full administrative access, exclusively through the Filament **Control Panel** (`/control-panel`) — an admin account is redirected there and can't use the employee portal's pages.
 
-Permissions:
+The Control Panel provides:
 
-* Manage employees
-* View all leave requests
-* Approve leave requests
-* Reject leave requests
-* Access organization-wide information
-* Manage departments
-* Monitor workforce availability
-* Access administrative tools
+* **Users** — manage accounts, roles, departments, and passwords (including forcing a password change on next login)
+* **Departments** — create, edit, and delete departments
+* **Attendance** — records grouped by employee, expandable to view and edit individual check-ins/check-outs
+* **Leave Requests** — records grouped by employee; approve or reject pending requests with an optional audit note
+* **Dashboard widgets** — workforce overview at a glance
 
 ---
 
@@ -223,7 +228,7 @@ Permissions:
 
 ---
 
-## Admin Panel Preview
+## Control Panel Preview
 
 <img width="1866" height="857" alt="Screenshot_8" src="https://github.com/user-attachments/assets/8968917b-2c2d-487c-8cad-5a08985f65f5" />
 
@@ -243,10 +248,14 @@ Permissions:
 * Blade
 * Tailwind CSS
 
+### Admin Control Panel
+
+* [Filament](https://filamentphp.com)
+
 ### Authentication
 
-* Laravel Breeze
-* Microsoft Entra ID for employee accounts
+* Microsoft Entra ID (SSO) — primary sign-in method for employee accounts
+* Local email/password login as a fallback; self-registration and self-service password reset are disabled in favor of Entra ID (an admin can force a password change from the Control Panel)
 
 ## Login Page
 
@@ -270,6 +279,12 @@ app/
 ├── Models
 ├── Http
 │   └── Controllers
+├── Filament
+│   ├── Resources     # Control Panel: Users, Departments, Attendance, Leave Requests
+│   ├── Pages
+│   └── Widgets
+├── Providers
+│   └── Filament      # Control Panel configuration
 ├── Services
 
 resources/
@@ -277,8 +292,7 @@ resources/
 │   ├── dashboard
 │   ├── employees
 │   ├── leaves
-│   ├── profile
-│   └── admin
+│   └── profile
 
 database/
 ├── migrations
@@ -410,9 +424,3 @@ This repository contains proprietary software developed for OnePortal's internal
 
 The contents of this repository, including source code, documentation, and assets, are confidential and may not be reproduced, distributed, modified, or disclosed without prior written permission from OnePortal.
 
----
-
-## Author
-
-Developed for OnePortal's internal workforce management platform.
-Designed to streamline employee management, leave requests, workforce visibility, and administrative operations.
