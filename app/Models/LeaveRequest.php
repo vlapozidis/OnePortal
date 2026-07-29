@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\LeaveRequestReviewed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,23 @@ class LeaveRequest extends Model
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    /**
+     * Notify the employee by email whenever a request is decided, regardless
+     * of whether the admin used the Approve/Reject buttons or edited the
+     * status directly — a single source of truth so no path can skip it.
+     */
+    protected static function booted(): void
+    {
+        static::updated(function (self $leaveRequest) {
+            if (
+                $leaveRequest->isDirty('status')
+                && in_array($leaveRequest->status, ['Approved', 'Rejected'], true)
+            ) {
+                $leaveRequest->user->notify(new LeaveRequestReviewed($leaveRequest));
+            }
+        });
     }
 
     /**
