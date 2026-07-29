@@ -66,6 +66,21 @@ class User extends Authenticatable implements FilamentUser
         return $this->role === 'admin';
     }
 
+    /**
+     * Defense-in-depth: prevent a non-admin request from ever mass-assigning
+     * its way into the admin role, even if a future endpoint forgets to
+     * whitelist fields. Console/system contexts (seeders, Entra sync) are
+     * unaffected since they run without an authenticated web user.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (User $user) {
+            if ($user->exists && $user->isDirty('role') && auth()->check() && ! auth()->user()->isAdmin()) {
+                $user->role = $user->getOriginal('role');
+            }
+        });
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin();

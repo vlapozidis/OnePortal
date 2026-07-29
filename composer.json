@@ -10,25 +10,25 @@
         "ext-intl": "*",
         "ext-pdo_mysql": "*",
         "ext-zip": "*",
-        "davidhsianturi/blade-bootstrap-icons": "*",
-        "filament/filament": "*",
+        "davidhsianturi/blade-bootstrap-icons": "^2.2",
+        "filament/filament": "^5.7",
         "laravel/framework": "^13.8",
-        "laravel/socialite": "*",
+        "laravel/socialite": "^5.28",
         "laravel/tinker": "^3.0",
-        "microsoft/microsoft-graph-beta": "*",
-        "symfony/brevo-mailer": "*",
-        "symfony/http-client": "*"
+        "microsoft/microsoft-graph-beta": "^3.2",
+        "symfony/brevo-mailer": "^8.1",
+        "symfony/http-client": "^8.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/breeze": "*",
+        "laravel/breeze": "^2.4",
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "*",
-        "pestphp/pest-plugin-laravel": "*"
+        "pestphp/pest": "^4.7",
+        "pestphp/pest-plugin-laravel": "^4.1"
     },
     "autoload": {
         "files": [
