@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="border-b border-[var(--portal-border)] bg-[var(--portal-surface)] lg:min-h-screen lg:w-72 lg:border-b-0 lg:border-r">
     <div class="flex h-16 items-center justify-between px-4 lg:hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2 font-semibold tracking-wide text-[var(--portal-text-primary)]">
-            <img src="{{ asset('images/logofree.png') }}" alt="Logo" class="h-8 w-auto object-contain">
+            <img src="{{ versioned_asset('images/logofree.png') }}" alt="Logo" class="h-8 w-auto object-contain">
             <span>OnePortal</span>
         </a>
         <button @click="open = !open" class="rounded-none border border-[var(--portal-border)] p-2 text-[var(--portal-text-secondary)] hover:text-[var(--portal-text-primary)]">
@@ -12,9 +12,9 @@
         </button>
     </div>
 
-    <div :class="open ? 'block' : 'hidden'" class="hidden border-t border-[var(--portal-border)] px-3 py-4 lg:block lg:border-t-0 lg:px-4 lg:py-6">
+    <div x-cloak :class="open ? 'block' : 'hidden'" class="border-t border-[var(--portal-border)] px-3 py-4 lg:!block lg:border-t-0 lg:px-4 lg:py-6">
         <a href="{{ route('dashboard') }}" class="hidden flex items-center gap-3 pb-6 text-xl font-semibold tracking-wide text-[var(--portal-text-primary)] lg:flex">
-            <img src="{{ asset('images/logofree.png') }}" alt="Logo" class="h-10 w-auto max-w-none object-contain">
+            <img src="{{ versioned_asset('images/logofree.png') }}" alt="Logo" class="h-10 w-auto max-w-none object-contain">
             <span>OnePortal</span>
         </a>
 

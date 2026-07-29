@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLeaveRequestRequest;
 use App\Models\Department;
 use App\Models\LeaveRequest;
+use App\Models\User;
+use App\Notifications\LeaveRequestSubmitted;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -59,11 +61,15 @@ class LeaveRequestController extends Controller
 
     public function store(StoreLeaveRequestRequest $request): RedirectResponse
     {
-        LeaveRequest::create([
+        $leaveRequest = LeaveRequest::create([
             ...$request->validated(),
             'user_id' => $request->user()->id,
             'status' => 'Pending',
         ]);
+
+        User::where('role', 'admin')->get()->each(
+            fn (User $admin) => $admin->notify(new LeaveRequestSubmitted($leaveRequest))
+        );
 
         return redirect()
             ->route('leave-requests.index')

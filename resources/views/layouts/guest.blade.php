@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
-        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+        <link rel="icon" type="image/png" href="{{ versioned_asset('images/favicon.png') }}">
+        <link rel="shortcut icon" href="{{ versioned_asset('images/favicon.png') }}">
 
         @php
             $pageTitle = match (true) {
@@ -35,7 +35,7 @@
                 <div class="hidden -ml-16 items-center justify-center lg:flex">
                     <div class="relative inline-block">
                         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.6),transparent_60%)] blur-2xl animate-pulse"></div>
-                        <img src="{{ asset('images/PortalLogin.png') }}" alt="OnePortal" class="relative h-64 w-auto object-contain drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                        <img src="{{ versioned_asset('images/PortalLogin.png') }}" alt="OnePortal" class="relative h-64 w-auto object-contain drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]">
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@
                     <div class="mb-6 text-center lg:hidden">
                         <div class="relative mb-4 inline-block">
                             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.6),transparent_60%)] blur-2xl animate-pulse"></div>
-                            <img src="{{ asset('images/PortalLogin.png') }}" alt="OnePortal" class="relative h-32 w-auto object-contain drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">
+                            <img src="{{ versioned_asset('images/PortalLogin.png') }}" alt="OnePortal" class="relative h-32 w-auto object-contain drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">
                         </div>
                         <a href="/">
                             <span class="text-2xl font-semibold tracking-wide text-[var(--portal-text-primary)]">OnePortal</span>

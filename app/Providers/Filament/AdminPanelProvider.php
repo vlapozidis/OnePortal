@@ -80,12 +80,12 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('control-panel')
-            ->favicon(asset('images/favicon.png'))
+            ->favicon(versioned_asset('images/favicon.png'))
             ->profile(EditProfile::class, isSimple: false)
             ->brandName(config('app.name', 'OnePortal').' Control Panel')
             ->brandLogo(fn () => new HtmlString(
                 '<div style="display:flex;align-items:center;gap:0.5rem;height:2rem">'
-                .'<img src="'.e(asset('images/logofree.png')).'" alt="'.e(config('app.name', 'OnePortal')).'" style="height:2rem;width:auto;display:block" />'
+                .'<img src="'.e(versioned_asset('images/logofree.png')).'" alt="'.e(config('app.name', 'OnePortal')).'" style="height:2rem;width:auto;display:block" />'
                 .'<span style="font-size:1rem;font-weight:700;line-height:1;white-space:nowrap">'.e(config('app.name', 'OnePortal').' Control Panel').'</span>'
                 .'</div>'
             ))

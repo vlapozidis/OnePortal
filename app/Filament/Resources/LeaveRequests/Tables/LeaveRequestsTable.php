@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\LeaveRequests\Tables;
 
 use App\Models\LeaveRequest;
+use App\Notifications\LeaveRequestReviewed;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -96,6 +97,8 @@ class LeaveRequestsTable
                             'reviewed_by' => auth()->id(),
                             'reviewed_at' => now(),
                         ]);
+
+                        $record->user->notify(new LeaveRequestReviewed($record));
                     }),
                 Action::make('reject')
                     ->label(__('Reject'))
@@ -114,6 +117,8 @@ class LeaveRequestsTable
                             'reviewed_by' => auth()->id(),
                             'reviewed_at' => now(),
                         ]);
+
+                        $record->user->notify(new LeaveRequestReviewed($record));
                     }),
                 EditAction::make(),
             ])
