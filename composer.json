@@ -15,7 +15,9 @@
         "laravel/framework": "^13.8",
         "laravel/socialite": "*",
         "laravel/tinker": "^3.0",
-        "microsoft/microsoft-graph-beta": "*"
+        "microsoft/microsoft-graph-beta": "*",
+        "symfony/brevo-mailer": "*",
+        "symfony/http-client": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
