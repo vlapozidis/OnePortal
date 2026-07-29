@@ -61,6 +61,9 @@ class UserForm
                         Toggle::make('must_change_password')
                             ->label(__('Must Change Password'))
                             ->helperText(__('User will be forced to set a new password on next login.')),
+                        Toggle::make('hidden')
+                            ->label(__('Hidden'))
+                            ->helperText(__('Hide this user from employee-facing directories and listings.')),
                     ]),
 
                 Section::make(__('Password'))

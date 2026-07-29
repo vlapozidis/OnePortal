@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
-#[Fillable(['name', 'email', 'password', 'must_change_password', 'department_id', 'work_mode', 'role', 'theme', 'phone_number', 'avatar_path', 'entra_id', 'azure_tenant_id', 'entra_email', 'entra_profile', 'entra_synced_at', 'auth_provider', 'email_verified_at'])]
+#[Fillable(['name', 'email', 'password', 'must_change_password', 'department_id', 'work_mode', 'role', 'hidden', 'theme', 'phone_number', 'avatar_path', 'entra_id', 'azure_tenant_id', 'entra_email', 'entra_profile', 'entra_synced_at', 'auth_provider', 'email_verified_at'])]
 #[Hidden(['password', 'remember_token', 'entra_profile'])]
 class User extends Authenticatable implements FilamentUser
 {
@@ -37,6 +37,7 @@ class User extends Authenticatable implements FilamentUser
             'entra_profile' => 'json',
             'password' => 'hashed',
             'must_change_password' => 'boolean',
+            'hidden' => 'boolean',
         ];
     }
 
@@ -92,10 +93,10 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Exclude the seeded demo admin account from employee-facing listings.
+     * Exclude admin accounts and manually hidden users from employee-facing listings.
      */
     public function scopeVisible(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
     {
-        return $query->where('email', '!=', 'admin@classter.local');
+        return $query->where('role', '!=', 'admin')->where('hidden', false);
     }
 }

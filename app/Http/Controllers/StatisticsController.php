@@ -59,7 +59,7 @@ class StatisticsController extends Controller
 
     private function baseQuery(?int $employeeId): \Illuminate\Database\Eloquent\Builder
     {
-        $query = LeaveRequest::query();
+        $query = LeaveRequest::query()->whereHas('user', fn ($query) => $query->visible());
 
         if ($employeeId) {
             $query->where('user_id', $employeeId);

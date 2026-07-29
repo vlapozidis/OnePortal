@@ -10,6 +10,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -46,6 +47,9 @@ class UsersTable
                     ->label(__('Work Mode'))
                     ->formatStateUsing(fn (?string $state) => $state ? __($state) : null)
                     ->badge()
+                    ->sortable(),
+                ToggleColumn::make('hidden')
+                    ->label(__('Hidden'))
                     ->sortable(),
                 IconColumn::make('auth_provider')
                     ->label(__('Entra ID'))
