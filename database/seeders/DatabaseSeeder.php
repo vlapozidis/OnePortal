@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::updateOrCreate([
-            'email' => 'admin@classter.local',
+            'email' => 'admin@oneportal.local',
         ], [
             'name' => 'Admin User',
             'password' => Hash::make('password'),
@@ -40,12 +40,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $sampleEmployees = [
-            ['name' => 'Maria Stefanou', 'email' => 'maria.stefanou@classter.local', 'work_mode' => 'Remote'],
-            ['name' => 'Nikos Andreou', 'email' => 'nikos.andreou@classter.local', 'work_mode' => 'On Site'],
-            ['name' => 'Elena Georgiou', 'email' => 'elena.georgiou@classter.local', 'work_mode' => 'Hybrid'],
-            ['name' => 'Petros Mavris', 'email' => 'petros.mavris@classter.local', 'work_mode' => 'Remote'],
-            ['name' => 'Irene Kyriakou', 'email' => 'irene.kyriakou@classter.local', 'work_mode' => 'On Site'],
-            ['name' => 'Andreas Zeniou', 'email' => 'andreas.zeniou@classter.local', 'work_mode' => 'Hybrid'],
+            ['name' => 'Maria Stefanou', 'email' => 'maria.stefanou@oneportal.local', 'work_mode' => 'Remote'],
+            ['name' => 'Nikos Andreou', 'email' => 'nikos.andreou@oneportal.local', 'work_mode' => 'On Site'],
+            ['name' => 'Elena Georgiou', 'email' => 'elena.georgiou@oneportal.local', 'work_mode' => 'Hybrid'],
+            ['name' => 'Petros Mavris', 'email' => 'petros.mavris@oneportal.local', 'work_mode' => 'Remote'],
+            ['name' => 'Irene Kyriakou', 'email' => 'irene.kyriakou@oneportal.local', 'work_mode' => 'On Site'],
+            ['name' => 'Andreas Zeniou', 'email' => 'andreas.zeniou@oneportal.local', 'work_mode' => 'Hybrid'],
         ];
 
         foreach ($sampleEmployees as $index => $employee) {

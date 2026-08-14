@@ -1,103 +1,84 @@
-# Phase 10: Microsoft Entra ID Integration - Implementation Guide
+# Microsoft Entra ID Setup Guide
 
-## ✅ Completed Setup
+OnePortal uses Microsoft Entra ID (Azure AD) as its sign-in method — there's no local registration form. This guide covers how to register an Azure AD application for your organization and configure the app to use it. No source changes are required; everything is driven by environment variables, so the same codebase works for any company's tenant.
 
-The Microsoft Entra ID (Azure AD) integration has been successfully configured with the following structure:
+---
 
-### 1. **Dependencies Installed**
-- `laravel/socialite` - OAuth2 social authentication
-- `microsoft/microsoft-graph-beta` - Microsoft Graph API support
+## How It Works
 
-### 2. **Database Changes**
-Migration: `2026_06_23_090000_add_entra_id_fields_to_users_table.php`
-
-New columns added to `users` table:
-- `entra_id` (string, unique) - Microsoft Entra ID object ID
-- `azure_tenant_id` (string) - Azure tenant identifier
-- `entra_email` (string) - Email from Entra ID
-- `entra_profile` (JSON) - Full Entra ID profile data
-- `entra_synced_at` (timestamp) - Last sync timestamp
-- `auth_provider` (string) - Authentication provider (local/entra)
-
-### 3. **Controllers**
-**File**: [app/Http/Controllers/Auth/EntraIDController.php](app/Http/Controllers/Auth/EntraIDController.php)
-
-Routes handled:
-- `redirect()` - Redirects user to Microsoft login
-- `callback()` - Handles OAuth callback and user creation/update
-- `logout()` - Logs out user and destroys session
-
-### 4. **Services**
-**File**: [app/Services/EntraIDUserService.php](app/Services/EntraIDUserService.php)
-
-Key methods:
-- `findOrCreateUser()` - Find or automatically create user on first login
-- `createUserFromEntraID()` - Create new user from Entra ID profile
-- `linkUserToEntraID()` - Link existing user to Entra ID
-- `updateUserFromEntraID()` - Update user from Entra ID profile
-- `syncUsersFromEntraID()` - Sync users from Entra ID directory (Graph API placeholder)
-
-### 5. **Artisan Command**
-**File**: [app/Console/Commands/SyncEntraIDUsersCommand.php](app/Console/Commands/SyncEntraIDUsersCommand.php)
-
-Usage:
-```bash
-php artisan entra:sync-users
-php artisan entra:sync-users --force
+```
+1. User clicks "Sign in with Microsoft"
+   ↓
+2. Redirected to Microsoft Entra ID login
+   ↓
+3. User authenticates with their Microsoft account
+   ↓
+4. Microsoft redirects back with an authorization code
+   ↓
+5. App exchanges the code for an access token
+   ↓
+6. App fetches the user's profile from Microsoft Graph
+   ↓
+7. App finds or creates a local user record
+   ↓
+8. User is logged in and redirected to the dashboard
 ```
 
-### 6. **Configuration Files**
+On first login, if auto-provisioning is enabled, a new `User` record is created from the Entra ID profile (name, email, object ID) with `auth_provider = entra` and an auto-verified email. On every later login, the local profile is refreshed with the latest name/email from Entra ID.
 
-**Services Config**: [config/services.php](config/services.php)
-```php
-'microsoft' => [
-    'client_id' => env('ENTRA_CLIENT_ID'),
-    'client_secret' => env('ENTRA_CLIENT_SECRET'),
-    'redirect' => env('ENTRA_REDIRECT_URI'),
-    'tenant' => env('ENTRA_TENANT_ID', 'common'),
-]
-```
+---
 
-**Entra Config**: [config/entra.php](config/entra.php)
-- OAuth2 endpoints
-- Scopes configuration
-- Auto user provisioning settings
-- User sync settings
+## 1. Register an Application in Azure
 
-### 7. **Routes**
-**File**: [routes/auth.php](routes/auth.php)
+1. Go to [portal.azure.com](https://portal.azure.com).
+2. Navigate to **Azure Active Directory → App registrations → New registration**.
+3. Name it (e.g. "OnePortal").
+4. Select **Accounts in this organizational directory only**.
+5. Click **Register**.
 
-Routes configured:
-- `GET /login` - Redirect to Microsoft OAuth (route name: `login`)
-- `GET /auth/entra/callback` - OAuth callback (route name: `entra.callback`)
-- `POST /logout` - Logout endpoint (route name: `logout`)
+## 2. Copy the IDs
 
-Old local auth routes are commented out for reference.
+From the app's **Overview** page:
 
-### 8. **Updated User Model**
-**File**: [app/Models/User.php](app/Models/User.php)
+| Value | Goes into |
+|---|---|
+| Application (client) ID | `ENTRA_CLIENT_ID` |
+| Directory (tenant) ID | `ENTRA_TENANT_ID` |
 
-Updates:
-- Added Entra ID fields to `$fillable` array
-- Added `entra_profile` to `$hidden` array
-- Updated `casts()` method with:
-  - `entra_synced_at` → datetime
-  - `entra_profile` → json
+## 3. Create a Client Secret
 
-### 9. **Updated Login View**
-**File**: [resources/views/auth/login.blade.php](resources/views/auth/login.blade.php)
+1. Go to **Certificates & secrets → New client secret**.
+2. Give it a description and an expiry (e.g. 24 months).
+3. Copy the **secret value** immediately into `ENTRA_CLIENT_SECRET` — it will not be shown again.
 
-- Replaced local login form with "Sign in with Microsoft" button
-- Shows Microsoft Entra ID information to users
-- Displays error messages if login fails
-- Professional blue Microsoft branding
+## 4. Configure the Redirect URI
 
-### 10. **Environment Configuration**
-**File**: [.env.example](.env.example)
+1. Go to **Authentication → Add a platform → Web**.
+2. Add the redirect URI(s):
+   ```
+   http://localhost:8000/auth/entra/callback
+   https://yourdomain.com/auth/entra/callback
+   ```
+3. Enable **Access tokens** and **ID tokens**.
+4. Save.
 
-Add these to your `.env` file:
-```
-ENTRA_CLIENT_ID=b
+## 5. Grant API Permissions
+
+1. Go to **API permissions → Add a permission → Microsoft Graph**.
+2. Add:
+   - `User.Read` (delegated)
+   - `User.ReadBasic.All` (delegated)
+   - `Directory.Read.All` (application — needed only for the directory sync command)
+3. Click **Grant admin consent** for the organization.
+
+---
+
+## 6. Configure the App
+
+Set these in your `.env` file:
+
+```env
+ENTRA_CLIENT_ID=
 ENTRA_CLIENT_SECRET=
 ENTRA_TENANT_ID=
 ENTRA_REDIRECT_URI=http://localhost:8000/auth/entra/callback
@@ -108,201 +89,72 @@ ENTRA_SYNC_BATCH_SIZE=100
 ENTRA_SYNC_UPDATE_EXISTING=true
 ```
 
----
-
-## 🔧 Next Steps: Obtaining Entra ID Credentials
-
-### To Get Your Credentials from Azure:
-
-1. **Go to Azure Portal**: https://portal.azure.com
-
-2. **Register an Application**:
-   - Navigate to: Azure Active Directory → App registrations → New registration
-   - Name: "Portal Application" (or your choice)
-   - Select "Accounts in this organizational directory only"
-   - Click Register
-
-3. **Get Client ID and Tenant ID**:
-   - Copy `Application (client) ID` → `ENTRA_CLIENT_ID`
-   - Copy `Directory (tenant) ID` → `ENTRA_TENANT_ID`
-
-4. **Create Client Secret**:
-   - Go to: Certificates & secrets → New client secret
-   - Description: "Portal App Secret"
-   - Expires: 24 months (or your preference)
-   - Copy the secret value → `ENTRA_CLIENT_SECRET`
-   - ⚠️ **Save this immediately - you won't see it again!**
-
-5. **Configure Redirect URI**:
-   - Go to: Authentication → Add a platform → Web
-   - Redirect URIs:
-     ```
-     http://localhost:8000/auth/entra/callback
-     https://yourdomain.com/auth/entra/callback
-     ```
-   - Enable: "Access tokens" and "ID tokens"
-   - Click Save
-
-6. **Configure API Permissions**:
-   - Go to: API permissions → Add a permission
-   - Select: Microsoft Graph
-   - Permissions needed:
-     - `User.Read` (delegated)
-     - `User.ReadBasic.All` (delegated)
-     - `Directory.Read.All` (application) - for sync feature
-   - Click "Grant admin consent for [Organization]"
+These map to [config/entra.php](config/entra.php) and the `microsoft` block in [config/services.php](config/services.php). Leaving `ENTRA_TENANT_ID` unset defaults to `common` (any Microsoft account), which is rarely what you want for an internal portal — set it to your organization's tenant ID to restrict sign-in to your directory.
 
 ---
 
-## 🚀 How It Works
+## Where This Lives in the Codebase
 
-### Authentication Flow:
-
-```
-1. User clicks "Sign in with Microsoft"
-   ↓
-2. Redirected to Microsoft Entra ID login
-   ↓
-3. User authenticates with their Microsoft account
-   ↓
-4. Microsoft redirects back with authorization code
-   ↓
-5. Application exchanges code for access token
-   ↓
-6. Application fetches user profile from Microsoft Graph
-   ↓
-7. Application checks if user exists:
-   - If exists → Update profile → Log in
-   - If not exists → Create user → Log in
-   ↓
-8. User is logged in and redirected to dashboard
-```
-
-### User Provisioning:
-
-When a user signs in for the first time:
-1. System fetches their Entra ID profile (name, email, ID)
-2. Creates a new user record with:
-   - Name from Entra ID
-   - Email from Entra ID
-   - Entra ID object ID
-   - Random secure password (not used)
-   - `auth_provider` = 'entra'
-   - `email_verified_at` = now (auto-verified)
-3. Returns user to application
-
-On subsequent logins:
-1. User profile is updated with latest Entra ID data
-2. Name and email changes are reflected if changed in Entra ID
+| Piece | File |
+|---|---|
+| OAuth redirect / callback / logout | [app/Http/Controllers/Auth/EntraIDController.php](app/Http/Controllers/Auth/EntraIDController.php) |
+| Find/create/update/sync user logic | [app/Services/EntraIDUserService.php](app/Services/EntraIDUserService.php) |
+| Manual directory sync command | [app/Console/Commands/SyncEntraIDUsersCommand.php](app/Console/Commands/SyncEntraIDUsersCommand.php) |
+| Routes | [routes/auth.php](routes/auth.php) — `GET /login`, `GET /auth/entra/callback`, `POST /logout` |
+| Config | [config/entra.php](config/entra.php), [config/services.php](config/services.php) |
+| User model fields | `entra_id`, `azure_tenant_id`, `entra_email`, `entra_profile` (JSON), `entra_synced_at`, `auth_provider` |
 
 ---
 
-## 📊 Database Fields Reference
+## Manual User Sync
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| `entra_id` | string | Unique Microsoft Entra ID object identifier |
-| `azure_tenant_id` | string | Organization's Azure tenant ID |
-| `entra_email` | string | Email address from Entra ID |
-| `entra_profile` | json | Complete Entra ID profile response |
-| `entra_synced_at` | timestamp | Last time user data was synced from Entra ID |
-| `auth_provider` | string | Which provider authenticated the user (local/entra) |
-
----
-
-## 🔐 Security Notes
-
-1. **Client Secret**: Never commit to version control. Use `.env` files.
-2. **Redirect URIs**: Must match exactly between Azure and your application.
-3. **HTTPS Required**: For production, use HTTPS URLs only.
-4. **Token Validation**: Socialite handles token validation automatically.
-5. **CSRF Protection**: All OAuth routes are protected by Laravel's CSRF middleware.
-
----
-
-## 🧪 Testing
-
-### Local Testing:
-```bash
-# Make sure .env has test credentials
-# Start the dev server
-php artisan serve
-
-# Visit: http://localhost:8000/login
-```
-
-### Test Users:
-Create test users in your Azure AD directory:
-- Test Admin: admin@yourtenant.onmicrosoft.com
-- Test User: user@yourtenant.onmicrosoft.com
-
----
-
-## 📝 Available Commands
+To pull/update users from the Entra ID directory in bulk (requires `Directory.Read.All`):
 
 ```bash
-# Run user sync from Entra ID
 php artisan entra:sync-users
-
-# Force sync even if recently synced
-php artisan entra:sync-users --force
-
-# Check migrations status
-php artisan migrate:status
-
-# Rollback if needed
-php artisan migrate:rollback
+php artisan entra:sync-users --force   # sync even if recently synced
 ```
 
 ---
 
-## 🆘 Troubleshooting
+## Testing Locally
 
-### "Invalid state" error:
-- Clear browser cookies and session
-- Verify ENTRA_REDIRECT_URI matches exactly in Azure
+```bash
+php artisan serve
+```
 
-### User not created:
-- Check if auto-provisioning is enabled: `ENTRA_AUTO_PROVISION_USERS=true`
-- Review application logs for errors
-- Verify user doesn't already exist with that email
-
-### Login redirects in loop:
-- Check `ENTRA_TENANT_ID` is correct
-- Verify client secret hasn't expired in Azure
-- Ensure Redirect URI is configured in both locations
-
-### Permission errors:
-- Go back to Azure → API permissions
-- Click "Grant admin consent"
-- Wait a few minutes for permissions to propagate
+Visit `http://localhost:8000/login` and sign in with a test account from your Azure AD tenant (e.g. `user@yourtenant.onmicrosoft.com`).
 
 ---
 
-## 📚 Resources
+## Troubleshooting
+
+**"Invalid state" error**
+Clear browser cookies/session, and double-check `ENTRA_REDIRECT_URI` matches exactly what's registered in Azure.
+
+**User not created on login**
+Confirm `ENTRA_AUTO_PROVISION_USERS=true`, check the application logs, and verify no existing user already has that email.
+
+**Login redirects in a loop**
+Verify `ENTRA_TENANT_ID` is correct and the client secret hasn't expired in Azure.
+
+**Permission / consent errors**
+Go back to **API permissions** in Azure, click **Grant admin consent**, and wait a few minutes for it to propagate.
+
+---
+
+## Security Notes
+
+- Never commit `ENTRA_CLIENT_SECRET` or any real credentials — keep them in `.env`, which is gitignored.
+- Redirect URIs must match exactly between Azure and the app's configuration.
+- Use HTTPS redirect URIs in production.
+- Laravel's CSRF middleware protects all OAuth routes; Socialite handles token validation.
+
+---
+
+## Resources
 
 - [Laravel Socialite Documentation](https://laravel.com/docs/socialite)
 - [Microsoft Graph API](https://learn.microsoft.com/en-us/graph/overview)
-- [Azure AD OAuth 2.0 Flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
-- [Azure App Registration Guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
-
----
-
-## ✨ Features Implemented
-
-✅ Microsoft Entra ID OAuth 2.0 integration
-✅ Automatic user provisioning on first login
-✅ User profile syncing
-✅ Secure session management
-✅ Graceful logout functionality
-✅ Error handling with user feedback
-✅ Artisan command for manual sync
-✅ Configuration management
-✅ Commented-out local auth routes for reference
-✅ Professional login interface with Microsoft branding
-
----
-
-**Status**: ⏳ **WAITING FOR YOUR ENTRA ID CREDENTIALS**
-
-Once you provide your Entra ID credentials, update the `.env` file and the system will be ready to use!
+- [Azure AD OAuth 2.0 Authorization Code Flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+- [Azure App Registration Quickstart](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)

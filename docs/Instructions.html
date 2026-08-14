@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnePortal — How It Works</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #e3e6ea;
+    --text-primary: #1c2128;
+    --text-secondary: #57606a;
+    --primary: #2f6feb;
+    --primary-soft: #eaf1ff;
+    --code-bg: #f0f2f5;
+    --admin-accent: #b35900;
+    --admin-soft: #fff3e6;
+    --user-accent: #1a7f5a;
+    --user-soft: #e8f8f1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --surface: #1c1f24;
+      --border: #2c3038;
+      --text-primary: #e6e9ee;
+      --text-secondary: #9aa4b2;
+      --primary: #6ea3ff;
+      --primary-soft: #1c2a44;
+      --code-bg: #23262c;
+      --admin-accent: #e0a25e;
+      --admin-soft: #332413;
+      --user-accent: #5fd3a4;
+      --user-soft: #12271f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  nav.toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 20px;
+    border-right: 1px solid var(--border);
+  }
+  nav.toc h2 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+  nav.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
+  nav.toc li { margin: 2px 0; }
+  nav.toc a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  nav.toc a:hover { background: var(--primary-soft); color: var(--primary); }
+  main {
+    padding: 40px 48px 80px;
+    min-width: 0;
+  }
+  header.hero {
+    margin-bottom: 40px;
+  }
+  header.hero .eyebrow {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  header.hero h1 {
+    font-size: 2.1rem;
+    margin: 0 0 12px;
+  }
+  header.hero p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 62ch;
+    margin: 0;
+  }
+  section {
+    margin: 56px 0;
+    scroll-margin-top: 24px;
+  }
+  section h2 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  section h3 {
+    font-size: 1.05rem;
+    margin: 28px 0 10px;
+  }
+  p { color: var(--text-primary); }
+  .muted { color: var(--text-secondary); }
+  code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  pre code { background: none; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--text-secondary); font-weight: 600; }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card h4 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+  }
+  .card p { margin: 0; color: var(--text-secondary); font-size: 0.88rem; }
+  .roles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .role-box {
+    border-radius: 10px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+  }
+  .role-box.user { background: var(--user-soft); }
+  .role-box.admin { background: var(--admin-soft); }
+  .role-box h4 {
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .role-box.user h4 { color: var(--user-accent); }
+  .role-box.admin h4 { color: var(--admin-accent); }
+  .role-box ul { margin: 0; padding-left: 20px; font-size: 0.9rem; }
+  ol.steps {
+    padding-left: 22px;
+  }
+  ol.steps li { margin-bottom: 10px; }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0;
+    font-size: 0.85rem;
+  }
+  .flow .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+  .flow .arrow { color: var(--text-secondary); }
+  .callout {
+    border-left: 3px solid var(--primary);
+    background: var(--primary-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .callout.warn {
+    border-left-color: var(--admin-accent);
+    background: var(--admin-soft);
+  }
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    main { padding: 28px 20px 60px; }
+    .roles { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#roles">Roles &amp; Access</a></li>
+      <li><a href="#features">Core Features</a></li>
+      <li><a href="#auth-flow">Authentication Flow</a></li>
+      <li><a href="#any-company">Setting Up For Any Company</a></li>
+      <li><a href="#entra-setup">Entra ID Setup Guide</a></li>
+      <li><a href="#structure">Project Structure</a></li>
+      <li><a href="#running">Running Locally</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">OnePortal Documentation</div>
+      <h1>How This App Works</h1>
+      <p>OnePortal is an internal employee management portal built with Laravel and Blade. It's a generic template — not wired to any one company — so a new organization can stand it up with configuration alone, no code changes.</p>
+    </header>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>The app is split into two fully independent experiences:</p>
+      <div class="cards">
+        <div class="card">
+          <h4>Employee Portal</h4>
+          <p>A Blade-rendered site at the root domain: dashboard, leave requests, employee directory, workforce visibility, and profile management.</p>
+        </div>
+        <div class="card">
+          <h4>Control Panel</h4>
+          <p>A separate Filament-powered admin app at <code>/control-panel</code>, covering users, departments, attendance, and leave approvals.</p>
+        </div>
+      </div>
+      <p class="muted">An admin account is redirected straight to the Control Panel and cannot fall back to the employee pages — the two are kept deliberately separate.</p>
+    </section>
+
+    <section id="architecture">
+      <h2>Architecture</h2>
+      <table>
+        <tr><th>Layer</th><th>Technology</th></tr>
+        <tr><td>Backend</td><td>Laravel (PHP)</td></tr>
+        <tr><td>Employee UI</td><td>Blade + Tailwind CSS</td></tr>
+        <tr><td>Admin UI</td><td><a href="https://filamentphp.com">Filament</a></td></tr>
+        <tr><td>Auth</td><td>Microsoft Entra ID (Azure AD) via Laravel Socialite</td></tr>
+        <tr><td>Database</td><td>SQLite (local dev) / MySQL (production, e.g. Railway)</td></tr>
+        <tr><td>Charts</td><td>Chart.js</td></tr>
+      </table>
+    </section>
+
+    <section id="roles">
+      <h2>Roles &amp; Access</h2>
+      <p>Access is controlled by a simple two-role system stored on the <code>User</code> model.</p>
+      <div class="roles">
+        <div class="role-box user">
+          <h4>User (Employee)</h4>
+          <ul>
+            <li>View dashboard</li>
+            <li>Submit leave requests</li>
+            <li>View own leave history</li>
+            <li>Browse employee directory</li>
+            <li>Check in / check out</li>
+            <li>Manage own profile</li>
+          </ul>
+        </div>
+        <div class="role-box admin">
+          <h4>Admin</h4>
+          <ul>
+            <li>Manage users, roles, departments</li>
+            <li>Force a password change on next login</li>
+            <li>Approve / reject leave requests</li>
+            <li>Edit attendance records</li>
+            <li>View workforce dashboard widgets</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>Core Features</h2>
+      <h3>Employee Dashboard</h3>
+      <p>Leave balance, days used, pending requests, department/employment info, and an interactive calendar for the current month — click a day to open a pre-filled leave request, or click a second day to request a range.</p>
+
+      <h3>Leave Management</h3>
+      <p>Employees submit leave requests (dates, department, reason) and track status: <code>Pending</code> → <code>Approved</code>/<code>Rejected</code>. An approved leave covering today blocks check-in/out and shows an "on approved leave" message instead.</p>
+
+      <h3>Employee Directory &amp; Workforce Visibility</h3>
+      <p>Search and filter employees by department; see live status per employee — <code>Remote</code>, <code>On Site</code>, or <code>On Leave</code>.</p>
+
+      <h3>Profile &amp; Theme</h3>
+      <p>Employees manage their own profile and avatar. A light/dark toggle in the sidebar is saved per-account (not just the browser), and every page shares the same set of CSS custom properties for consistent theming.</p>
+    </section>
+
+    <section id="auth-flow">
+      <h2>Authentication Flow</h2>
+      <p>Sign-in is handled entirely through Microsoft Entra ID (Azure AD) OAuth 2.0 — there is no self-registration form.</p>
+      <div class="flow">
+        <div class="step">Click "Sign in with Microsoft"</div>
+        <span class="arrow">→</span>
+        <div class="step">Redirect to Entra ID login</div>
+        <span class="arrow">→</span>
+        <div class="step">User authenticates</div>
+        <span class="arrow">→</span>
+        <div class="step">Callback with auth code</div>
+        <span class="arrow">→</span>
+        <div class="step">Exchange for token + profile</div>
+        <span class="arrow">→</span>
+        <div class="step">Find or create user</div>
+        <span class="arrow">→</span>
+        <div class="step">Logged in</div>
+      </div>
+      <p>On first login, if <code>ENTRA_AUTO_PROVISION_USERS</code> is enabled, a user record is created automatically from the Entra ID profile (name, email, object ID) with <code>auth_provider = entra</code>. On every subsequent login, the local profile is refreshed from the latest Entra ID data.</p>
+    </section>
+
+    <section id="any-company">
+      <h2>Setting Up For Any Company</h2>
+      <p>Nothing in the codebase hardcodes a specific organization. To deploy a fresh instance for a different company:</p>
+      <ol class="steps">
+        <li>Register an application in that company's Azure AD tenant (see <a href="#entra-setup">Entra ID Setup Guide</a> below).</li>
+        <li>Set <code>APP_NAME</code> and <code>APP_URL</code> in <code>.env</code> to the new company/domain.</li>
+        <li>Set the four <code>ENTRA_*</code> environment variables to the values from that Azure app registration.</li>
+        <li>Run <code>php artisan migrate</code> against a fresh database.</li>
+        <li>Optionally seed departments/demo data, or just let employees sign in — accounts are auto-provisioned on first Entra ID login.</li>
+        <li>Promote at least one user to <code>admin</code> (directly in the database, or via <code>php artisan tinker</code>) so someone can reach the Control Panel and manage the rest.</li>
+      </ol>
+      <div class="callout">No source changes are required — branding, tenant, and user data are all environment/config or runtime (Control Panel) driven.</div>
+    </section>
+
+    <section id="entra-setup">
+      <h2>Entra ID Setup Guide</h2>
+      <p>These are the steps to obtain the credentials the app needs (<code>ENTRA_CLIENT_ID</code>, <code>ENTRA_CLIENT_SECRET</code>, <code>ENTRA_TENANT_ID</code>, <code>ENTRA_REDIRECT_URI</code>).</p>
+
+      <h3>1. Register an application</h3>
+      <ol class="steps">
+        <li>Go to <a href="https://portal.azure.com">portal.azure.com</a>.</li>
+        <li>Navigate to <strong>Azure Active Directory → App registrations → New registration</strong>.</li>
+        <li>Name it (e.g. "OnePortal") and choose <strong>Accounts in this organizational directory only</strong>.</li>
+        <li>Click <strong>Register</strong>.</li>
+      </ol>
+
+      <h3>2. Copy the IDs</h3>
+      <ol class="steps">
+        <li><strong>Application (client) ID</strong> → <code>ENTRA_CLIENT_ID</code></li>
+        <li><strong>Directory (tenant) ID</strong> → <code>ENTRA_TENANT_ID</code></li>
+      </ol>
+
+      <h3>3. Create a client secret</h3>
+      <ol class="steps">
+        <li>Go to <strong>Certificates &amp; secrets → New client secret</strong>.</li>
+        <li>Give it a description and an expiry.</li>
+        <li>Copy the secret value immediately → <code>ENTRA_CLIENT_SECRET</code> (it won't be shown again).</li>
+      </ol>
+
+      <h3>4. Configure the redirect URI</h3>
+      <ol class="steps">
+        <li>Go to <strong>Authentication → Add a platform → Web</strong>.</li>
+        <li>Add the redirect URI(s), e.g.:
+          <pre><code>http://localhost:8000/auth/entra/callback
+https://yourdomain.com/auth/entra/callback</code></pre>
+        </li>
+        <li>Enable <strong>Access tokens</strong> and <strong>ID tokens</strong>, then save.</li>
+      </ol>
+
+      <h3>5. Grant API permissions</h3>
+      <ol class="steps">
+        <li>Go to <strong>API permissions → Add a permission → Microsoft Graph</strong>.</li>
+        <li>Add: <code>User.Read</code> (delegated), <code>User.ReadBasic.All</code> (delegated), and <code>Directory.Read.All</code> (application, for the sync command).</li>
+        <li>Click <strong>Grant admin consent</strong> for the organization.</li>
+      </ol>
+
+      <h3>6. Set the environment variables</h3>
+      <pre><code>ENTRA_CLIENT_ID=
+ENTRA_CLIENT_SECRET=
+ENTRA_TENANT_ID=
+ENTRA_REDIRECT_URI=http://localhost:8000/auth/entra/callback
+
+ENTRA_AUTO_PROVISION_USERS=true
+ENTRA_SYNC_ENABLED=true
+ENTRA_SYNC_BATCH_SIZE=100
+ENTRA_SYNC_UPDATE_EXISTING=true</code></pre>
+
+      <h3>7. (Optional) Sync users from the directory</h3>
+      <pre><code>php artisan entra:sync-users
+php artisan entra:sync-users --force</code></pre>
+
+      <div class="callout warn">
+        <strong>Troubleshooting:</strong> "Invalid state" errors usually mean stale cookies/session or a redirect URI mismatch. A login loop usually means the wrong <code>ENTRA_TENANT_ID</code> or an expired client secret. Permission errors mean admin consent hasn't been granted (or hasn't propagated yet — wait a few minutes).
+      </div>
+      <p class="muted">Full reference: <a href="../ENTRA_ID_SETUP.md">ENTRA_ID_SETUP.md</a> in the repo root.</p>
+    </section>
+
+    <section id="structure">
+      <h2>Project Structure</h2>
+      <pre><code>app/
+├── Models              # User, Department, Attendance, LeaveRequest, LeaveBalance
+├── Http/Controllers     # Employee-portal controllers + Auth (incl. EntraIDController)
+├── Filament
+│   ├── Resources        # Control Panel: Users, Departments, Attendances, LeaveRequests
+│   ├── Pages
+│   └── Widgets
+├── Providers/Filament    # Control Panel configuration
+├── Services              # EntraIDUserService (find/create/sync users)
+
+resources/views
+├── dashboard
+├── employees
+├── leaves
+└── profile
+
+database/
+├── migrations
+├── factories
+└── seeders               # optional demo data, not required in production</code></pre>
+    </section>
+
+    <section id="running">
+      <h2>Running Locally</h2>
+      <pre><code>composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+
+touch database/database.sqlite
+php artisan migrate
+
+npm run build
+php artisan serve</code></pre>
+      <p class="muted">See the main <a href="../README.md">README.md</a> for full installation instructions and feature previews.</p>
+    </section>
+
+    <footer>
+      OnePortal — internal documentation. See <a href="../README.md">README.md</a> and <a href="../ENTRA_ID_SETUP.md">ENTRA_ID_SETUP.md</a> for more detail.
+    </footer>
+  </main>
+</div>
+</body>
+</html>

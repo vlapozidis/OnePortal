@@ -39,6 +39,19 @@ The employee-facing portal and the admin experience are fully separated: employe
 
 ---
 
+## Works for Any Company
+
+OnePortal isn't tied to a specific organization — it's a generic internal portal template. Nothing in the codebase hardcodes a company name, tenant, or user list; everything company-specific comes from configuration:
+
+* **Authentication** — Microsoft Entra ID (Azure AD) sign-in is driven entirely by environment variables (`ENTRA_CLIENT_ID`, `ENTRA_CLIENT_SECRET`, `ENTRA_TENANT_ID`, `ENTRA_REDIRECT_URI`). Point these at any organization's Azure AD tenant and employees from that tenant can sign in — see [ENTRA_ID_SETUP.md](ENTRA_ID_SETUP.md).
+* **Branding** — app name, URL, and logo/favicon assets are configurable (`APP_NAME`, `APP_URL`, `public/images`); no company name is baked into the source.
+* **Users & departments** — created either by an admin through the Control Panel or automatically on first Entra ID login (auto-provisioning); `database/seeders/DatabaseSeeder.php` only provides optional local/demo data for development, it's not required in production.
+* **Data model** — departments, leave policies, attendance, and roles are all managed at runtime through the Control Panel, not defined in code.
+
+To stand up a new instance for a different company: register an app in that company's Azure AD, set the Entra env vars and `APP_NAME`/`APP_URL`, run migrations, and create/sync users. See [docs/how-it-works.html](docs/how-it-works.html) for a full walkthrough of how the app is put together.
+
+---
+
 ## Recent Updates
 
 ### Control Panel Improvements
