@@ -168,6 +168,14 @@ This helps teams coordinate more efficiently and improves organizational visibil
 
 ---
 
+### Departments
+
+Employees can browse the organization's departments and see what each one covers.
+
+<img width="1906" src="public/images/screenshots/departments.png" alt="Departments page">
+
+---
+
 ### User Profile Management
 
 Every employee has access to a personal profile section.
@@ -180,7 +188,7 @@ Users can:
 
 ## User Profile Management Preview
 
-<img width="1863" height="875" alt="image" src="https://github.com/user-attachments/assets/44d43a4a-511d-4788-b1af-d727b4ae7cb0" />
+<img width="1863" src="public/images/screenshots/profile-settings.png" alt="Profile and settings page">
 
 ---
 
@@ -221,7 +229,7 @@ The Control Panel provides:
 ## Dashboard Preview
 
 
-<img width="1875" height="893" alt="image" src="https://github.com/user-attachments/assets/df3be296-41b4-4544-a1a4-e8a4f8e4582c" />
+<img width="1875" src="public/images/screenshots/dashboard.png" alt="Employee dashboard">
 
 ---
 
@@ -234,14 +242,18 @@ The Control Panel provides:
 
 ## Leave Requests Preview
 
-<img width="1880" height="899" alt="image" src="https://github.com/user-attachments/assets/e8b09ed3-cda0-40d8-8ed8-558218299c49" />
+<img width="1880" src="public/images/screenshots/leave-requests.png" alt="Leave requests calendar">
 
 
 ---
 
 ## Control Panel Preview
 
-<img width="1894" height="879" alt="image" src="https://github.com/user-attachments/assets/90420c86-c00f-4954-b64a-74dec19b6941" />
+<img width="1894" src="public/images/screenshots/control-panel-users.png" alt="Control Panel - Users">
+
+<img width="1894" src="public/images/screenshots/control-panel-attendance.png" alt="Control Panel - Attendance">
+
+<img width="1894" src="public/images/screenshots/control-panel-leave-requests.png" alt="Control Panel - Leave Requests">
 
 ---
 
@@ -270,7 +282,7 @@ The Control Panel provides:
 
 ## Login Page
 
-<img width="1743" height="883" alt="image" src="https://github.com/user-attachments/assets/5c736e45-cc36-49e3-b653-534cd6917c8a" />
+<img width="1743" src="public/images/screenshots/login.png" alt="Login page">
 
 
 
@@ -280,7 +292,7 @@ The Control Panel provides:
 
 ## Charts & Analytics Preview
 
-<img width="1871" height="895" alt="image" src="https://github.com/user-attachments/assets/013a40de-f860-4f24-9041-2053af25b158" />
+<img width="1871" src="public/images/screenshots/statistics.png" alt="Leave statistics and charts">
 
 ---
 
