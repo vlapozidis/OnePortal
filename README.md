@@ -160,10 +160,6 @@ Workforce statuses include:
 
 This helps teams coordinate more efficiently and improves organizational visibility.
 
-## Workforce Visibility Preview 
-
-
-<img width="1906" height="733" alt="image" src="https://github.com/user-attachments/assets/503753a9-fc07-49e6-bf2e-baa4936b8f33" />
 
 
 ---
@@ -230,12 +226,6 @@ The Control Panel provides:
 
 
 <img width="1875" src="public/images/screenshots/dashboard.png" alt="Employee dashboard">
-
----
-
-## Employee Directory Preview
-
-<img width="1883" height="593" alt="image" src="https://github.com/user-attachments/assets/38801e2b-1fe6-45f4-8ca4-b0a310e1ffa2" />
 
 
 ---
